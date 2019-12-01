@@ -1,0 +1,14 @@
+- Pour le Jeudi 21 Novembre
+  Lire le cahier des charges
+  Faire la conception de la base de données
+  Lister les quesitons à poser
+  Réfléchir aux technologies
+
+- Pour le Jeudi 28 Novembre
+  Modifier la conception de la base de données
+  Commencer la conception diagrammes UML
+  
+- Pour le Jeudi 5 Décembre
+  Finir la conception de la BD
+  Finir la conception UML (Use cases, classes)
+  Débuter l'auto-formation sur les technologues choisies (Symphony)
