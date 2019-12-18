@@ -12,3 +12,10 @@
   Finir la conception de la BD
   Finir la conception UML (Use cases, classes)
   Débuter l'auto-formation sur les technologues choisies (Symphony)
+
+- Pour le jeudi 19 Décembre
+  Modifier les différents diagrammes UML
+
+- Pour après les vacances
+  Avoir finis l'auto-formation sur Symphony
+  Avoir commencer le développement du projet
