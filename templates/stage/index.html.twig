@@ -5,4 +5,20 @@
     <div class="jumbotron text-center">
         <h1>Rechercher parmis les stages Polytech effectués</h1>
     </div>
+    <div class="container">
+        <div class="row flex">
+            {%  for stage in stages %}
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ path('stage.show', {id: stage.id, slug: stage.slug}) }}">{{ stage.intitule }}</a>
+                            </h5>
+                            <p class="card-text">Gratifié:{{ stage.estGratifie }} Pro:{{ stage.contratPro }} Embauche:{{ stage.embauche }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
