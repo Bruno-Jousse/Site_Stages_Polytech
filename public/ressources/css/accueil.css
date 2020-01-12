@@ -1,0 +1,47 @@
+.accueil-message
+{
+    background-image: url(../images/fond-carte.png);
+    background-size: cover;
+    border-bottom: #999999 dotted 2px;
+    overflow: auto;
+}
+
+
+.accueil-title
+{
+    /*margin-top: 40px;*/
+}
+
+.accueil-sub-title
+{
+    color: #5a5a5a;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.presentation
+{
+
+}
+
+.presentation-title
+{
+    margin-bottom: 20px;
+}
+
+.presentation-box
+{
+    display: flex;
+    justify-content: space-around;
+}
+
+.box
+{
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 350px;
+    background-color: #e4e5df;
+    border: #b9b9b9 solid 1px;
+    border-radius: 15px;
+}

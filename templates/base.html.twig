@@ -3,12 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Stages Polytech{% endblock %}</title>
+        <link rel="icon" href= {{  asset('/ressources/images/icone.ico') }}/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% block stylesheets %}
+            <link href="{{ asset('/ressources/css/base.css') }}" rel="stylesheet" />
+        {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{{ path('accueil') }}"><img src="#" alt="."></a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+            <a class="navbar-brand" href="{{ path('accueil') }}"><img src="{{ asset('ressources/images/logo-blanc.png') }}" alt=""></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -16,13 +20,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item {% if current_menu is defined and current_menu == 'accueil' %} active {% endif %}">
-                        <a class="nav-link" href="{{ path('accueil') }}"><img src="#" alt=".">Accueil</a>
+                        <a class="nav-link nav-font-bold mr-4" href="{{ path('accueil') }}"><i class="fa fa-home mr-2"></i>Accueil</a>
                     </li>
                     <li class="nav-item {% if current_menu is defined and current_menu == 'stage' %} active {% endif %}">
-                        <a class="nav-link" href="{{ path('stage.index') }}"><img src="#" alt=".">Rechercher</a>
+                        <a class="nav-link nav-font-bold mr-4" href="{{ path('stage.index') }}"><i class="fa fa-search mr-2"></i>Rechercher</a>
                     </li>
                     <li class="nav-item {% if current_menu is defined and current_menu == 'importer' %} active {% endif %}">
-                        <a class="nav-link" href="{{ path('importer') }}"><img src="#" alt=".">Importer</a>
+                        <a class="nav-link nav-font-bold mr-4" href="{{ path('importer') }}"><i class="fa fa-upload mr-2"></i>Importer</a>
                     </li>
 
                     {% if app.user %}

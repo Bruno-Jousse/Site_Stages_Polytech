@@ -1,12 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block title 'Accueil' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('/ressources/css/accueil.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
-    <div class="jumbotron text-center">
-        <h1>Rechercher parmis les stages Polytech effectués</h1>
-        <p>Ce site a pour objectif de permettre aux étudiants Polytech de pouvoir voir les stages qui ont été effectués les années précédentes dans leurs filières et année.</p>
-        <p>La recherche peut se faire à l'aide de données géographiques (ville, pays...), du nom d'entreprise, de mots-clés...</p>
-        <p>Vous pourrez obtenir toutes les informations sur le stage comme son sujet, sa localisation, sa durée, ses thèmes...</p>
-        <p>Vous pourrez par la suite contacter directement l'entreprise pour voir si elle propose encore un stage similaire cette année. Dans le cas où les informations de contact ne sont pas divulguées, vous devrez les demander à votre responsable de filière.</p>
+    <div class="text-center accueil-message">
+        <h1 class="accueil-title mt-4">Aide à la recherche de stage</h1>
+
+        <h3 class="accueil-sub-title">Rechercher les stages réalisés par les étudiants Polytech des années précédentes</h3>
+    </div>
+
+    <div class="ml-4 mt-4 mr-4 presentation">
+        <h4 class="presentation-title">
+            Ce site vous permet de :
+        </h4>
+
+        <div class="presentation-box row">
+            <div class="box" data-toggle="tooltip" data-placement="top" title="Pays, ville, thème du stage, poste, ...">Rechercher un stage via des données géographiques et mots-clef</div>
+            <div class="box" data-toggle="tooltip" data-placement="top" title="Tuteur enseignant, contenu du stage,  type de travail réalisé">Obtenir des informations détaillées sur un stage</div>
+            <div class="box" data-toggle="tooltip" data-placement="top" title="Pour réaliser un stage similaire cette année">Voir si des stages sont encore proposés par l'entreprise</div>
+        </div>
+
+        <p class="mt-4">Vous pourrez par la suite contacter directement l'entreprise pour voir si elle propose
+            encore un stage similaire cette année. Dans le cas où les informations de contact ne sont pas divulguées,
+            vous devrez les demander à votre responsable de filière.</p>
     </div>
 {% endblock %}
