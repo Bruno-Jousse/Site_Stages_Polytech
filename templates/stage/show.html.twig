@@ -3,8 +3,78 @@
 {% block title stage.intitule %}
 
 {% block body %}
-    {{ stage.intitule }}
+    <div class="text-center">
+        <h1>{{ stage.intitule }}</h1>
+        <div class="container">
+            <div class="row">
+                <p>Sujet: {{ stage.sujet }}</p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Stage réalisé par {{ stage.prenomEtud }} {{ stage.nomEtud }}</p>
+                </div>
+                <div class="col">
+                    <p>Le tuteur est: {{ stage.prenomTuteurEnt }} {{ stage.nomTuteurEnt }}</p>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col">
+                    <p>Réalisé en {{ stage.annee }}</p>
+                </div>
+                <div class="col">
+                    <p>Stage de {{ stage.dureeJours }} jours</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    Promo: {{ stage.promo }}
+                </div>
+                <div class="col">
+                    Année formation: {{ stage.anneeFormType }}
+                </div>
+                <div class="col">
+                    Département: {{ stage.departementType }}
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col">
+                    {% if stage.estGratifie %}<p><i class="fa fa-money"></i> Le stage est gratifié</p>
+                    {% else %} <p>Le stage n'est pas gratifié</p>
+                    {% endif %}
+                </div>
+                <!-- if estAdmin -> valeur -->
+                <div class="col">
+                    {% if stage.contratPro %}<p><i class="fa fa-wrench"></i> Le stage est un contrat pro</p>
+                    {% else %} <p>Le stage n'est pas un contrat pro</p>
+                    {% endif %}
+                </div>
+
+                <div class="col">
+                    {% if stage.embauche %}<p><i class="fa fa-briefcase"></i> Le stage a mené à une embauche</p>
+                    {% else %} <p>Le stage n'a pas mené à une embauche</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% if stage.mailVisible %}
+            <div class="row">
+                <div class="col">
+                    <i class="fa fa-mobile"></i> {{ stage.telTuteurEnt }}
+                </div>
+                <div class="col">
+                    <i class="fa fa-envelope"></i> {{ stage.mailTuteurEnt }}
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <p>Commentaire: {{ stage.commentaire }}</p>
+            </div>
+            <div class="row">
+                <a href="{{ stage.recap }}">Accéder au récapitulatif</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 

@@ -14,7 +14,21 @@
                             <h5 class="card-title">
                                 <a href="{{ path('stage.show', {id: stage.id, slug: stage.slug}) }}">{{ stage.intitule }}</a>
                             </h5>
-                            <p class="card-text">Gratifié:{{ stage.estGratifie }} Pro:{{ stage.contratPro }} Embauche:{{ stage.embauche }}</p>
+                            <p class="card-text">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            {% if stage.estGratifie %}<i class="fa fa-money"></i>{% endif %}
+                                        </div>
+                                        <div class="col">
+                                            {% if stage.embauche %}<i class="fa fa-briefcase"></i>{% endif %}
+                                        </div>
+                                        <div class="col">
+                                            {% if stage.contratPro %}<i class="fa fa-wrench"></i>{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
                         </div>
                     </div>
                 </div>
