@@ -13,9 +13,6 @@
                 <div class="col">
                     <p>Stage réalisé par {{ stage.prenomEtud }} {{ stage.nomEtud }}</p>
                 </div>
-                <div class="col">
-                    <p>Le tuteur est: {{ stage.prenomTuteurEnt }} {{ stage.nomTuteurEnt }}</p>
-                </div>
             </div>
 
             <div class="row">
@@ -35,6 +32,28 @@
                 </div>
                 <div class="col">
                     Département: {{ stage.departementType }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Entreprise: {{ stage.adresse.entreprise.nom }} ({{ stage.adresse.entreprise.estPriveeType }})</p>
+                </div>
+                <div class="col">
+                    <p>Le tuteur est: {{ stage.prenomTuteurEnt }} {{ stage.nomTuteurEnt }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <p>Adresse: {{ stage.adresse.adresse }} - {{ stage.adresse.adresseSuite }}</p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Ville: {{ stage.adresse.ville }} ({{ stage.adresse.codePostal }})</p>
+                </div>
+                <div class="col">
+                    <p>Pays: {{ stage.adresse.pays }}</p>
+                </div>
+                <div class="col">
+                    <p>Continent: {{ stage.adresse.continent }}</p>
                 </div>
             </div>
             <br/>
@@ -67,6 +86,20 @@
                 </div>
             </div>
             {% endif %}
+            <!--
+            <div class="row">
+                <div class="col">
+                    {//% for theme in stage.themes %}
+
+                    {//% include "themePere.html.twig" %}
+                    Dans themePere.html.twig : récursivité avec {//% include "themePere.html.twig" %}
+                    {//% endfor %}
+                </div>
+            </div>
+            -->
+            <div class="row">
+                <p>Mots clé: {% for motCle in stage.motsCle %}{{ motCle.motCle }} -{% endfor %}</p>
+            </div>
             <div class="row">
                 <p>Commentaire: {{ stage.commentaire }}</p>
             </div>

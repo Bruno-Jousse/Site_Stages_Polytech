@@ -17,6 +17,36 @@
                             <p class="card-text">
                                 <div class="container">
                                     <div class="row">
+                                        <p> {{ stage.adresse.entreprise.nom }}</p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>{{ stage.adresse.ville }}</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>({{ stage.adresse.codePostal }})</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>{{ stage.adresse.pays }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Durée: {{ stage.dureeJours }} jours</p>
+                                        </div>
+                                        <div class="col">
+                                            <p>{{ stage.annee }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            {{ stage.anneeFormType }}
+                                        </div>
+                                        <div class="col">
+                                            {{ stage.departementType }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col">
                                             {% if stage.estGratifie %}<i class="fa fa-money"></i>{% endif %}
                                         </div>
