@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 
@@ -85,7 +87,7 @@ class Stage
     private $prenom_tuteur_ent;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $tel_tuteur_ent;
 
@@ -128,6 +130,28 @@ class Stage
      * @ORM\Column(type="integer")
      */
     private $departement;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adresse", inversedBy="stages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Theme", inversedBy="stages")
+     */
+    private $themes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="stages")
+     */
+    private $motsCle;
+
+    public function __construct()
+    {
+        $this->themes = new ArrayCollection();
+        $this->motsCle = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -270,12 +294,12 @@ class Stage
         return $this;
     }
 
-    public function getTelTuteurEnt(): ?int
+    public function getTelTuteurEnt(): ?string
     {
         return $this->tel_tuteur_ent;
     }
 
-    public function setTelTuteurEnt(?int $tel_tuteur_ent): self
+    public function setTelTuteurEnt(?string $tel_tuteur_ent): self
     {
         $this->tel_tuteur_ent = $tel_tuteur_ent;
 
@@ -381,6 +405,70 @@ class Stage
     public function setDepartement(int $departement): self
     {
         $this->departement = $departement;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Theme[]
+     */
+    public function getThemes(): Collection
+    {
+        return $this->themes;
+    }
+
+    public function addTheme(Theme $theme): self
+    {
+        if (!$this->themes->contains($theme)) {
+            $this->themes[] = $theme;
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): self
+    {
+        if ($this->themes->contains($theme)) {
+            $this->themes->removeElement($theme);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MotCle[]
+     */
+    public function getMotsCle(): Collection
+    {
+        return $this->motsCle;
+    }
+
+    public function addMotsCle(MotCle $motsCle): self
+    {
+        if (!$this->motsCle->contains($motsCle)) {
+            $this->motsCle[] = $motsCle;
+        }
+
+        return $this;
+    }
+
+    public function removeMotsCle(MotCle $motsCle): self
+    {
+        if ($this->motsCle->contains($motsCle)) {
+            $this->motsCle->removeElement($motsCle);
+        }
 
         return $this;
     }
