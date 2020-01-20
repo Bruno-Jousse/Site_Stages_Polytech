@@ -4,9 +4,12 @@
 namespace App\Controller;
 
 
+use App\Entity\Search\StageSearch;
 use App\Entity\Stage;
+use App\Form\StageSearchType;
 use App\Repository\StageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,12 +30,17 @@ class StageController extends  AbstractController
     /**
      * @Route("/stages", name="stage.index")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $search = new StageSearch();
+        $form = $this->createForm(StageSearchType::class, $search);
+        $form->handleRequest($request);
+
         $stages = $this->repo->findAll();
         return $this->render("stage/index.html.twig", [
             "current_menu" => self::CURRENT_MENU,
-            "stages" => $stages
+            "stages" => $stages,
+            "form" => $form->createView()
         ]);
     }
 
