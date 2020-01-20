@@ -32,7 +32,7 @@
                     {% if app.user %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item {% if current_menu is defined and current_menu == 'admin' %} active {% endif %}">
-                                <a class="nav-link" href="{{ path('admin.index') }}"><img src="#" alt=".">Admin</a>
+                                <a class="nav-link" href="{{ path('admin.index.stages') }}"><img src="#" alt=".">Admin</a>
                             </li>
                         {% endif %}
                         <li class="nav-item"><a href="#" class="nav-link">Logout</a></li>

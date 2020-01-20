@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block title 'Administration' %}
+
+
+{% block body %}
+    {% include 'admin/base.html.twig' %}
+    <div class="div container mt-4">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div>
+            <a href="{{ path('admin.create.stages') }}"><i class="fa fa-plus-circle" style="font-size: 35px"></i></a>
+        </div>
+        <br/>
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>Intitulé</th>
+                    <th>Adresse</th>
+                    <th>Pays</th>
+                    <th>Année</th>
+                    <th>Prénom étudiant</th>
+                    <th>Nom étudiant</th>
+                    <th>Promo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for stage in stages %}
+                    <td>{{ stage.intitule }}</td>
+                    <td>{{ stage.adresse.adresse }} {{ stage.adresse.ville }}({{ stage.adresse.codePostal }})</td>
+                    <td>{{ stage.adresse.pays }}</td>
+                    <td>{{ stage.annee }}</td>
+                    <td>{{ stage.prenomEtud }}</td>
+                    <td>{{ stage.nomEtud }}</td>
+                    <td>{{ stage.promo }}</td>
+                    <td>
+                        <a href="{{ path('admin.edit.stages', {id: stage.id}) }}" class="btn btn-secondary"><i class="fa fa-wrench"></i></a>
+                        <form action="{{ path('admin.delete.stages', {id: stage.id}) }}" class="btn btn-secondary" style="display: inline-block">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <i class="fa fa-times"></i>
+                        </form>
+                    </td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'stages' %} active {% endif %}">
+                    <a class="nav-link nav-font-bold mr-4" href="{{ path('admin.index.stages') }}"><i class="fa fa-home mr-2"></i>Stages</a>
+                </li>
+                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'adresses' %} active {% endif %}">
+                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Adresses</a>
+                </li>
+                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'entreprises' %} active {% endif %}">
+                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Entreprises</a>
+                </li>
+                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'motsCle' %} active {% endif %}">
+                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Mots-clé</a>
+                </li>
+                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'themes' %} active {% endif %}">
+                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Thèmes</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="jumbotron text-center">
+        <h1>Modifier données les {{ current_sous_menu }}</h1>
+    </div>
+{% endblock %}
