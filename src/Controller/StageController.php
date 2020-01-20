@@ -36,7 +36,7 @@ class StageController extends  AbstractController
         $form = $this->createForm(StageSearchType::class, $search);
         $form->handleRequest($request);
 
-        $stages = $this->repo->findAll();
+        $stages = $this->repo->filtrerStages($search);
         return $this->render("stage/index.html.twig", [
             "current_menu" => self::CURRENT_MENU,
             "stages" => $stages,

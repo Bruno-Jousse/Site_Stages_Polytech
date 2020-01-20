@@ -16,7 +16,6 @@ class StageSearchType extends AbstractType
             ->add('duree_jours_min')
             ->add('duree_jours_max')
             ->add('est_gratifie')
-            ->add('gratification')
             ->add('contratPro')
             ->add('embauche')
             ->add('promo')

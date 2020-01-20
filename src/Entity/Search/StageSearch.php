@@ -26,11 +26,6 @@ class StageSearch
     private $est_gratifie = false;
 
     /**
-     * @var float|null
-     */
-    private $gratification;
-
-    /**
      * @var bool|null
      */
     private $contratPro = false;
@@ -141,22 +136,6 @@ class StageSearch
     public function setEstGratifie(?bool $est_gratifie): void
     {
         $this->est_gratifie = $est_gratifie;
-    }
-
-    /**
-     * @return float|null
-     */
-    public function getGratification(): ?float
-    {
-        return $this->gratification;
-    }
-
-    /**
-     * @param float|null $gratification
-     */
-    public function setGratification(?float $gratification): void
-    {
-        $this->gratification = $gratification;
     }
 
     /**
