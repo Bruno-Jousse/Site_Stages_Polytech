@@ -59,13 +59,13 @@ class Adresse
     private $pays;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprise", inversedBy="adresses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprise", inversedBy="adresses", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $entreprise;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="adresse")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="adresse", cascade={"persist"})
      */
     private $stages;
 

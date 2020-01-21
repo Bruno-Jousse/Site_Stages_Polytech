@@ -29,12 +29,12 @@ class Entreprise
     private $est_privee = true;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Adresse", mappedBy="entreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Adresse", mappedBy="entreprise", cascade={"persist", "remove"})
      */
     private $adresses;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="entreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="entreprise", cascade={"persist"})
      */
     private $stages;
 

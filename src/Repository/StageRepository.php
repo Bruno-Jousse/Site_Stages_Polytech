@@ -40,7 +40,7 @@ class StageRepository extends ServiceEntityRepository
         if ($search->getDepartement()){
             $departement = array_search($search->getDepartement(), Stage::DEPARTEMENT);
             $query = $query->where("s.departement = :p")
-                ->setParameter("p", $search->getDepartement());
+                ->setParameter("p", $departement);
         }
         if ($search->getMotsCle()){
             $query = $query->innerJoin("s.motsCle", "mc")
@@ -80,13 +80,13 @@ class StageRepository extends ServiceEntityRepository
         if ($search->getLocalisation()){
             $query =  $query->innerJoin("s.adresse", "a")
                 ->where($query->expr()->orX(
-                    $query->expr()->like("a.adresse", "%:p%"),
+                    $query->expr()->like("a.adresse", ":pLike"),
                     $query->expr()->eq("a.ville", ":p"),
                     $query->expr()->eq("a.pays", ":p"),
                     $query->expr()->eq("a.continent", ":p"),
                     $query->expr()->eq("a.code_postal", ":p")
                 ))
-                ->setParameter("p", $search->getEntreprise());
+                ->setParameters(array("p" => $search->getLocalisation(), "pLike"=> "%".$search->getLocalisation()."%"));
         }
 
         return $query->getQuery()->getResult();
