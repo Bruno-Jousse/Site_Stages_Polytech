@@ -29,6 +29,8 @@ class StageController extends  AbstractController
 
     /**
      * @Route("/stages", name="stage.index")
+     * @param Request $request
+     * @return Response
      */
     public function index(Request $request): Response
     {

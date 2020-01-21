@@ -1,0 +1,33 @@
+.stage-detail
+{
+    box-shadow: 3px 2px 2px #919191;
+    border: solid 1px #cacaca;
+    margin: auto;
+    background-color: #FFFFFF;
+
+}
+
+.body
+{
+    background-color: #fbf8ff;
+
+}
+
+.sujet-stage
+{
+    font-size: 18px;
+}
+
+.table
+{
+    border-left: solid 1px #dee2e6;
+    border-right: solid 1px #dee2e6;
+}
+
+.bulle-commentaire
+{
+    box-shadow: inset 3px 2px 2px #919191;
+    padding: 15px;
+    border: solid 1px #919191;
+    border-radius: 15px;
+}

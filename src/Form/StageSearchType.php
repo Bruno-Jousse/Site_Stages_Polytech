@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Search\StageSearch;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,10 +16,19 @@ class StageSearchType extends AbstractType
             ->add('annee')
             ->add('duree_jours_min')
             ->add('duree_jours_max')
-            ->add('est_gratifie')
+            ->add('est_gratifie', CheckboxType::class, [
+                'label'    => 'Stage rémunéré uniquement',
+                'required' => false,
+            ])
             ->add('gratification')
-            ->add('contratPro')
-            ->add('embauche')
+            ->add('contratPro' , CheckboxType::class, [
+                'label'    => 'Contrat Pro uniquement',
+                'required' => false,
+            ])
+            ->add('embauche', CheckboxType::class, [
+                'label'    => 'Entreprise recrutant uniquement',
+                'required' => false,
+            ])
             ->add('promo')
             ->add('annee_form')
             ->add('departement')

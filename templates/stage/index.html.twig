@@ -1,76 +1,108 @@
 {% extends 'base.html.twig' %}
 {% block title 'Rechercher Stage' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('/ressources/css/stageRecherche.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
-    <div class="jumbotron text-center">
-        <h1>Rechercher parmis les stages Polytech effectués</h1>
+    <div class="filtre-expand-button">
+        <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Filtrer les recherches<i class="fa fa-angle-down ml-4"></i>
+        </button>
     </div>
-    <div class="jumbotron">
-        <div class="container">
-            {{ form_start(form) }}
-                {{ form_rest(form) }}
-                <button type="submit" class="btn btn-secondary">Filtrer</button>
-            {{ form_end(form) }}
-        </div>
-    </div>
-    <div class="container">
-        <div class="row flex">
-            {%  for stage in stages %}
-                <div class="col-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{{ path('stage.show', {id: stage.id, slug: stage.slug}) }}">{{ stage.intitule }}</a>
-                            </h5>
-                            <p class="card-text">
-                                <div class="container">
-                                    <div class="row">
-                                        <p> {{ stage.adresse.entreprise.nom }}</p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p>{{ stage.adresse.ville }}</p>
-                                        </div>
-                                        <div class="col">
-                                            <p>({{ stage.adresse.codePostal }})</p>
-                                        </div>
-                                        <div class="col">
-                                            <p>{{ stage.adresse.pays }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <p>Durée: {{ stage.dureeJours }} jours</p>
-                                        </div>
-                                        <div class="col">
-                                            <p>{{ stage.annee }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            {{ stage.anneeFormType }}
-                                        </div>
-                                        <div class="col">
-                                            {{ stage.departementType }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            {% if stage.estGratifie %}<i class="fa fa-money"></i>{% endif %}
-                                        </div>
-                                        <div class="col">
-                                            {% if stage.embauche %}<i class="fa fa-briefcase"></i>{% endif %}
-                                        </div>
-                                        <div class="col">
-                                            {% if stage.contratPro %}<i class="fa fa-wrench"></i>{% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </p>
-                        </div>
+
+    <div class="collapse" id="collapseExample">
+        <div class="filter-container">
+            <div class="form-input-container mt-4">
+
+                {{ form_start(form) }}
+                <div class="row ml-0" >
+                    {{ form_row(form.localisation) }}
+                    {{ form_row(form.themes ) }}
+                    {{ form_row(form.annee) }}
+                    {{ form_row(form.entreprise) }}
+                    {{ form_row(form.motsCle) }}
+
+                </div>
+                <div class="row ml-0">
+                    {{ form_row(form.duree_jours_min) }}
+                    {{ form_row(form.duree_jours_max) }}
+                    <div class="checkboxes row">
+                        {{ form_row(form.est_gratifie) }}
+                        {{ form_row(form.embauche) }}
+                        {{ form_row(form.contratPro) }}
                     </div>
                 </div>
-            {% endfor %}
+
+                <button type="submit" class="btn btn-secondary mb-4">Filtrer</button>
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+
+
+
         </div>
     </div>
+    <div class="row">
+        <div class="col-6 mt-4 map">
+            Emplacement de la carte
+        </div>
+            <div class="col-6 mt-4">
+                <div class="row flex">
+                    {%  for stage in stages %}
+                        <div class="col-6">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="{{ path('stage.show', {id: stage.id, slug: stage.slug}) }}">{{ stage.intitule }}</a>
+                                    </h5>
+                                    <p class="card-text">
+                                        <div class="container">
+                                            <div class="row">
+                                                <p> {{ stage.adresse.entreprise.nom }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p>{{ stage.adresse.ville }}</p>
+                                                <p>({{ stage.adresse.codePostal }})</p>
+                                                <p>{{ stage.adresse.pays }}</p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>Durée: {{ stage.dureeJours }} jours</p>
+                                                </div>
+                                                <div class="col">
+                                                    <p>{{ stage.annee }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    {{ stage.anneeFormType }}
+                                                </div>
+                                                <div class="col">
+                                                    {{ stage.departementType }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    {% if stage.estGratifie %}<i class="fa fa-money"></i>{% endif %}
+                                                </div>
+                                                <div class="col">
+                                                    {% if stage.embauche %}<i class="fa fa-briefcase"></i>{% endif %}
+                                                </div>
+                                                <div class="col">
+                                                    {% if stage.contratPro %}<i class="fa fa-wrench"></i>{% endif %}
+                                                </div>
+                                            </div>
+                                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+
 {% endblock %}

@@ -1,113 +1,161 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('/ressources/css/stageDetail.css') }}" rel="stylesheet" />
+{% endblock %}
+
 {% block title stage.intitule %}
 
 {% block body %}
-    <div class="text-center">
-        <h1>{{ stage.intitule }}</h1>
-        <div class="container">
-            <div class="row">
-                <p>Sujet: {{ stage.sujet }}</p>
+    <div class="body">
+        <a class="ml-1" href="{{ path('stage.index') }}">
+            <div class="btn btn-sm btn-outline-secondary mt-1">
+                <i class="fa fa-angle-left mr-4"></i>Retourner à la recherche des stages
             </div>
-            <div class="row">
-                <div class="col">
-                    <p>Stage réalisé par {{ stage.prenomEtud }} {{ stage.nomEtud }}</p>
-                </div>
-            </div>
+        </a>
 
-            <div class="row">
-                <div class="col">
-                    <p>Réalisé en {{ stage.annee }}</p>
-                </div>
-                <div class="col">
-                    <p>Stage de {{ stage.dureeJours }} jours</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    Promo: {{ stage.promo }}
-                </div>
-                <div class="col">
-                    Année formation: {{ stage.anneeFormType }}
-                </div>
-                <div class="col">
-                    Département: {{ stage.departementType }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <p>Entreprise: {{ stage.adresse.entreprise.nom }} ({{ stage.adresse.entreprise.estPriveeType }})</p>
-                </div>
-                <div class="col">
-                    <p>Le tuteur est: {{ stage.prenomTuteurEnt }} {{ stage.nomTuteurEnt }}</p>
-                </div>
-            </div>
-            <div class="row">
-                <p>Adresse: {{ stage.adresse.adresse }} - {{ stage.adresse.adresseSuite }}</p>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <p>Ville: {{ stage.adresse.ville }} ({{ stage.adresse.codePostal }})</p>
-                </div>
-                <div class="col">
-                    <p>Pays: {{ stage.adresse.pays }}</p>
-                </div>
-                <div class="col">
-                    <p>Continent: {{ stage.adresse.continent }}</p>
-                </div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col">
-                    {% if stage.estGratifie %}<p><i class="fa fa-money"></i> Le stage est gratifié</p>
-                    {% else %} <p>Le stage n'est pas gratifié</p>
-                    {% endif %}
-                </div>
-                <!-- if estAdmin -> valeur -->
-                <div class="col">
-                    {% if stage.contratPro %}<p><i class="fa fa-wrench"></i> Le stage est un contrat pro</p>
-                    {% else %} <p>Le stage n'est pas un contrat pro</p>
-                    {% endif %}
+        <div class="stage-detail col-9 mt-4 mb-4">
+            <h1 class="text-center mb-4 mt-4">{{ stage.intitule }}</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="sujet-stage"><strong>Sujet:</strong> {{ stage.sujet }}</p>
+                    </div>
                 </div>
 
-                <div class="col">
-                    {% if stage.embauche %}<p><i class="fa fa-briefcase"></i> Le stage a mené à une embauche</p>
-                    {% else %} <p>Le stage n'a pas mené à une embauche</p>
-                    {% endif %}
+                <div class="row">
+                    <div class="col">
+                        Ce stage a été réalisé en <strong>{{ stage.annee }}</strong> et a duré <strong>{{ stage.dureeJours }} jours</strong>
+                    </div>
                 </div>
-            </div>
-            {% if stage.mailVisible %}
-            <div class="row">
-                <div class="col">
-                    <i class="fa fa-mobile"></i> {{ stage.telTuteurEnt }}
-                </div>
-                <div class="col">
-                    <i class="fa fa-envelope"></i> {{ stage.mailTuteurEnt }}
-                </div>
-            </div>
-            {% endif %}
-            <!--
-            <div class="row">
-                <div class="col">
-                    {//% for theme in stage.themes %}
+                <div class="row">
+                    <div class="col-6 mt-4">
+                        <strong>Information sur l'étudiant lors de la réalisation du stage:</strong>
 
-                    {//% include "themePere.html.twig" %}
-                    Dans themePere.html.twig : récursivité avec {//% include "themePere.html.twig" %}
-                    {//% endfor %}
+                        <table class="table table-striped mt-2 mr-1 ">
+                            <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <td>{{ stage.nomEtud }}</td>
+                            </tr>
+                            <tr>
+                                <th>Prénom</th>
+                                <td>{{ stage.prenomEtud }}</td>
+                            </tr>
+                            <tr>
+                                <th>Promotion</th>
+                                <td>{{ stage.promo }}</td>
+                            </tr>
+                            <tr>
+                                <th>Année formation</th>
+                                <td>{{ stage.anneeFormType }}</td>
+                            </tr>
+                            <tr>
+                                <th>Département</th>
+                                <td>{{ stage.departementType }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-6 mt-4">
+                        <strong>Information sur le stage:</strong>
+
+                        <table class="table table-striped mt-2 ml-1 ">
+                            <tbody>
+                            <tr>
+                                <th>Entreprise</th>
+                                <td>{{ stage.adresse.entreprise.nom }} ({{ stage.adresse.entreprise.estPriveeType }})</td>
+                            </tr>
+                            <tr>
+                                <th>Adresse</th>
+                                <td>{{ stage.adresse.adresse }} - {{ stage.adresse.adresseSuite }}</td>
+                            </tr>
+                            <tr>
+                                <th>Ville</th>
+                                <td>{{ stage.adresse.ville }} ({{ stage.adresse.codePostal }})</td>
+                            </tr>
+                            <tr>
+                                <th>Pays</th>
+                                <td>{{ stage.adresse.pays }}</td>
+                            </tr>
+                            <tr>
+                                <th>Continent</th>
+                                <td> {{ stage.adresse.continent }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
-            </div>
-            -->
-            <div class="row">
-                <p>Mots clé: {% for motCle in stage.motsCle %}{{ motCle.motCle }} -{% endfor %}</p>
-            </div>
-            <div class="row">
-                <p>Commentaire: {{ stage.commentaire }}</p>
-            </div>
-            <div class="row">
-                <a href="{{ stage.recap }}">Accéder au récapitulatif</a>
+                <div class="row ml-1 mt-4">
+                    <p><strong>Tuteur enseignant du stage: </strong> {{ stage.nomTuteurEnt }} {{ stage.prenomTuteurEnt }} </p>
+                </div>
+
+
+                <br/>
+                <div class="row ml-1">
+                    <p><strong>Informations complémentaires:</strong></p>
+                </div>
+                <div class="row ml-1">
+                    <div class="col">
+                        {% if stage.estGratifie %}<p style="color: green"><i class="fa fa-money mr-1"></i> Le stage est gratifié</p>
+                        {% else %} <p style="color: red"><i class="fa fa-times mr-1"></i>Le stage n'est pas gratifié</p>
+                        {% endif %}
+                    </div>
+                    <!-- if estAdmin -> valeur -->
+                    <div class="col">
+                        {% if stage.contratPro %}<p style="color: green"><i class="fa fa-wrench mr-1"></i> Le stage est un contrat pro</p>
+                        {% else %} <p style="color: red"><i class="fa fa-times mr-1"></i>Le stage n'est pas un contrat pro</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="col">
+                        {% if stage.embauche %}<p style="color: green"><i class="fa fa-briefcase mr-1"></i> Le stage a mené à une embauche</p>
+                        {% else %} <p style="color: red"><i class="fa fa-times mr-1"></i>Le stage n'a pas mené à une embauche</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if stage.mailVisible %}
+                    <div class="row ml-1 mt-4">
+                        <strong>Contacts du tuteur enseignant:</strong>
+                    </div>
+                    <div class="row ml-1 mt-2">
+                        <div class="col text-center">
+                            <i class="fa fa-mobile mr-1"></i> {{ stage.telTuteurEnt }}
+                        </div>
+                        <div class="col text-center">
+                            <i class="fa fa-envelope mr-1"></i> {{ stage.mailTuteurEnt }}
+                        </div>
+                    </div>
+                {% endif %}
+                <!--
+                <div class="row">
+                    <div class="col">
+                        {//% for theme in stage.themes %}
+
+                        {//% include "themePere.html.twig" %}
+                        Dans themePere.html.twig : récursivité avec {//% include "themePere.html.twig" %}
+                        {//% endfor %}
+                    </div>
+                </div>
+                -->
+                <div class="row ml-1 mt-4">
+                    <p><strong>Mots-clé: </strong> {% for motCle in stage.motsCle %}{{ motCle.motCle }} - {% else %}Aucun mots-clé associé{% endfor %}</p>
+                </div>
+                <div class="row ml-1 mt-4">
+                    <p><strong>Commentaire: </strong></p>
+                </div>
+                <div class="bulle-commentaire">
+                    {{ stage.commentaire }}
+                </div>
+                <div class="row mt-4 mb-4">
+                    <a href="{{ stage.recap }}">Accéder au récapitulatif</a>
+                </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 
