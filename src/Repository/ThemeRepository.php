@@ -18,7 +18,13 @@ class ThemeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Theme::class);
     }
-
+/*
+    public function findTheme(Theme $theme){
+        return $this->findOneBy(array(
+            "theme" => $theme->getTheme()
+        ));
+    }
+*/
     // /**
     //  * @return Theme[] Returns an array of Theme objects
     //  */

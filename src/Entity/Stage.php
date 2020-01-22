@@ -6,16 +6,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StageRepository")
+ * @UniqueEntity( fields = {"sujet", "intitule", "annee", "nom_etud", "prenom_etud", "promo", "annee_form", "departement"} )
  */
 class Stage
 {
     public const DEPARTEMENT = [
-        0 => "A.B.",
-        1 => "C.D.",
-        3 => "EFG"
+        0 => "G.M",
+        1 => "G.P"
     ];
 
     public const ANNEE_FORM = [
@@ -489,5 +490,30 @@ class Stage
         $this->entreprise = $entreprise;
 
         return $this;
+    }
+
+    public static function stringToAnneeForm($string)
+    {
+        $res = 0;
+        switch ($string){
+            case "Contrat Pro":
+            case "cinquième année":
+                $res = array_search("5A", self::ANNEE_FORM);
+                break;
+            case "quatrième année":
+                $res =  array_search("4A", self::ANNEE_FORM);
+                break;
+            case"troisième année":
+                $res = array_search("3A", self::ANNEE_FORM);
+                break;
+        }
+
+        return $res;
+    }
+
+    public static function stringToDepartement($string){
+        $res = 0;
+        $res = array_search($string, self::DEPARTEMENT);
+        return $res;
     }
 }

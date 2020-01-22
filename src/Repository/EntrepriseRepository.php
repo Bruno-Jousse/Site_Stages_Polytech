@@ -18,8 +18,15 @@ class EntrepriseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Entreprise::class);
     }
-
-    // /**
+/*
+    public function findEntreprise(Entreprise $entreprise){
+        return $this->findOneBy(array(
+            "nom" => $entreprise->getNom(),
+            "est_privee" => $entreprise->getEstPrivee()
+        ));
+    }
+*/
+    /*// /**
     //  * @return Entreprise[] Returns an array of Entreprise objects
     //  */
     /*
