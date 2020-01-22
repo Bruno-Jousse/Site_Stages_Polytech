@@ -57,7 +57,7 @@ class Stage
     private $est_gratifie = false;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $gratification;
 
@@ -132,20 +132,26 @@ class Stage
     private $departement;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adresse", inversedBy="stages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adresse", inversedBy="stages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $adresse;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Theme", inversedBy="stages")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Theme", inversedBy="stages", cascade={"persist"})
      */
     private $themes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="stages")
+     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="stages", cascade={"persist"})
      */
     private $motsCle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprise", inversedBy="stages", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $entreprise;
 
     public function __construct()
     {
@@ -222,7 +228,7 @@ class Stage
         return $this;
     }
 
-    public function getGratification(): ?int
+    public function getGratification(): ?float
     {
         return $this->gratification;
     }
@@ -469,6 +475,18 @@ class Stage
         if ($this->motsCle->contains($motsCle)) {
             $this->motsCle->removeElement($motsCle);
         }
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): self
+    {
+        $this->entreprise = $entreprise;
 
         return $this;
     }

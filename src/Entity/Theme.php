@@ -29,12 +29,12 @@ class Theme
     private $pere;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Theme", mappedBy="pere")
+     * @ORM\OneToMany(targetEntity="App\Entity\Theme", mappedBy="pere", cascade={"persist"})
      */
     private $themes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Stage", mappedBy="themes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Stage", mappedBy="themes", cascade={"persist"})
      */
     private $stages;
 

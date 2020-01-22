@@ -20,7 +20,6 @@ class StageSearchType extends AbstractType
                 'label'    => 'Stage rémunéré uniquement',
                 'required' => false,
             ])
-            ->add('gratification')
             ->add('contratPro' , CheckboxType::class, [
                 'label'    => 'Contrat Pro uniquement',
                 'required' => false,

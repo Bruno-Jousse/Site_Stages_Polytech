@@ -29,13 +29,19 @@ class Entreprise
     private $est_privee = true;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Adresse", mappedBy="entreprise")
+     * @ORM\OneToMany(targetEntity="App\Entity\Adresse", mappedBy="entreprise", cascade={"persist", "remove"})
      */
     private $adresses;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="entreprise", cascade={"persist"})
+     */
+    private $stages;
 
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
+        $this->stages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,6 +102,37 @@ class Entreprise
             // set the owning side to null (unless already changed)
             if ($adress->getEntreprise() === $this) {
                 $adress->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Stage[]
+     */
+    public function getStages(): Collection
+    {
+        return $this->stages;
+    }
+
+    public function addStage(Stage $stage): self
+    {
+        if (!$this->stages->contains($stage)) {
+            $this->stages[] = $stage;
+            $stage->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStage(Stage $stage): self
+    {
+        if ($this->stages->contains($stage)) {
+            $this->stages->removeElement($stage);
+            // set the owning side to null (unless already changed)
+            if ($stage->getEntreprise() === $this) {
+                $stage->setEntreprise(null);
             }
         }
 
