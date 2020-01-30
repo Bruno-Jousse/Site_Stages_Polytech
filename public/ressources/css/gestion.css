@@ -1,0 +1,86 @@
+
+
+.nav-item > a
+{
+    color: #28a745;
+}
+
+.nav-item > a.active
+{
+    font-weight: bold;
+    color: #4ba1c1 !important;
+}
+
+.tab-pane
+{
+    margin-top: -15px;
+}
+
+table
+{
+    border-left: solid 2px #dee2e6;
+    border-right: solid 2px #dee2e6;
+}
+
+table > thead
+{
+    background-color: #4ba1c1;
+    color: #FFFFFF;
+}
+
+th
+{
+    border-left: solid 1px #9ec7d6;
+}
+
+td
+{
+    border-left: solid 1px #dee2e6;
+}
+
+.actions-buttons
+{
+    display: flex;
+    justify-content:center ;
+}
+
+.fa-pencil
+{
+    color: #000000;
+}
+
+.fa-trash
+{
+    color: #000000;
+}
+
+.fa-pencil:hover
+{
+    color: #1517D4;
+}
+
+.fa-trash:hover
+{
+    color: #e75142;
+}
+
+.actions-buttons > a
+{
+    margin-right: 15px;
+}
+
+.stg-create
+{
+    background-color: #4ba1c1;
+    border-color: #4ba1c1;
+    margin-bottom: -55px !important;
+    z-index: 21;
+    position:relative;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+h4
+{
+    margin-top: 20px;
+}

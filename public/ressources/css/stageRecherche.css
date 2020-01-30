@@ -1,3 +1,9 @@
+.search-container
+{
+    margin-right: 0 !important;
+}
+
+
 .filter-container
 {
     border-bottom: solid 1px gray;
@@ -26,9 +32,37 @@
 .map
 {
     border: solid 1px gray;
+    background-image: url(../images/mapsExample.png);
+    background-size: cover;
+    height: 500px;
+}
+
+.result-container
+{
+    height: 500px;
+    overflow: auto;
 }
 
 .card-text
 {
-    font-size: 8px;
+    font-size: 15px;
 }
+
+.icones > .col
+{
+    text-align: center;
+}
+
+.no-result
+{
+    margin: auto;
+}
+
+.no-found-image
+{
+    background-image: url(../images/no-result-found-image.png);
+    background-size: cover;
+    height: 400px;
+}
+
+
