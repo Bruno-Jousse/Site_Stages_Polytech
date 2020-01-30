@@ -26,8 +26,8 @@
 
                 </div>
                 <div class="row ml-0">
-                    {{ form_row(form.duree_jours_min) }}
-                    {{ form_row(form.duree_jours_max) }}
+                    {{ form_row(form.duree_mois_min) }}
+                    {{ form_row(form.duree_mois_max) }}
                     <div class="checkboxes row">
                         {{ form_row(form.est_gratifie) }}
                         {{ form_row(form.embauche) }}
@@ -43,66 +43,68 @@
 
         </div>
     </div>
-    <div class="row">
+    <div class="row search-container">
         <div class="col-6 mt-4 map">
-            Emplacement de la carte
         </div>
-            <div class="col-6 mt-4">
-                <div class="row flex">
-                    {%  for stage in stages %}
-                        <div class="col-6">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <a href="{{ path('stage.show', {id: stage.id, slug: stage.slug}) }}">{{ stage.intitule }}</a>
-                                    </h5>
-                                    <p class="card-text">
-                                        <div class="container">
-                                            <div class="row">
-                                                <p> {{ stage.adresse.entreprise.nom }}</p>
-                                            </div>
-                                            <div class="row">
-                                                <p>{{ stage.adresse.ville }}</p>
-                                                <p>({{ stage.adresse.codePostal }})</p>
-                                                <p>{{ stage.adresse.pays }}</p>
-                                            </div>
-                                            <div class="row">
+        <div class="col-6 mt-4 result-container">
+            <div class="row">
+                {%  for stage in stages %}
+                    <div class="col-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ path('stage.show', {id: stage.id, slug: stage.slug}) }}">{{ stage.intitule }}</a>
+                                </h5>
+                                <div class="card-text">
+                                    <div class="container">
+                                        <div class="row">
+                                            <p> <strong>{{ stage.adresse.entreprise.nom }}</strong></p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="mr-2">{{ stage.adresse.ville }}</p>
+                                            <p class="mr-2">({{ stage.adresse.codePostal }})</p>
+                                            <p>{{ stage.adresse.pays }}</p>
+                                        </div>
+                                        <div class="row">
+                                            <p>Durée: {{ stage.dureeJours }} jours</p>
+                                        </div>
+                                        <div class="row">
+                                            <p>Année: {{ stage.annee }}</p>
+                                        </div>
+
+                                        <div class="row icones">
+                                            {% if stage.estGratifie %}
                                                 <div class="col">
-                                                    <p>Durée: {{ stage.dureeJours }} jours</p>
+                                                    <i class="fa fa-money" data-toggle="tooltip" data-placement="left" title="Ce stage était rémunéré"></i>
                                                 </div>
+                                            {% endif %}
+                                            {% if stage.embauche %}
                                                 <div class="col">
-                                                    <p>{{ stage.annee }}</p>
+                                                    <i class="fa fa-briefcase" data-toggle="tooltip" data-placement="left" title="Ce stage a mené à une embauche"></i>
                                                 </div>
-                                            </div>
-                                            <div class="row">
+                                            {% endif %}
+                                            {% if stage.contratPro %}
                                                 <div class="col">
-                                                    {{ stage.anneeFormType }}
+                                                    <i class="fa fa-wrench" data-toggle="tooltip" data-placement="left" title="C'est un contrat pro"></i>
                                                 </div>
-                                                <div class="col">
-                                                    {{ stage.departementType }}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    {% if stage.estGratifie %}<i class="fa fa-money"></i>{% endif %}
-                                                </div>
-                                                <div class="col">
-                                                    {% if stage.embauche %}<i class="fa fa-briefcase"></i>{% endif %}
-                                                </div>
-                                                <div class="col">
-                                                    {% if stage.contratPro %}<i class="fa fa-wrench"></i>{% endif %}
-                                                </div>
-                                            </div>
-                                        
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
-                </div>
-            </div>
+                {% else %}
+                    <div class="no-result">
+                        <h4>Désolé, aucun stage ne correspond à votre recherche...</h4>
+                        <div class="no-found-image">
 
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
+    </div>
 
 
 {% endblock %}

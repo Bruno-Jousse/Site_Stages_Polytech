@@ -1,26 +1,116 @@
+
+{% block stylesheets %}
+    <link href="{{ asset('/ressources/css/gestion.css') }}" rel="stylesheet" />
+
+{% endblock %}
+
+
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'stages' %} active {% endif %}">
-                    <a class="nav-link nav-font-bold mr-4" href="{{ path('admin.index.stages') }}"><i class="fa fa-home mr-2"></i>Stages</a>
-                </li>
-                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'adresses' %} active {% endif %}">
-                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Adresses</a>
-                </li>
-                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'entreprises' %} active {% endif %}">
-                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Entreprises</a>
-                </li>
-                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'motsCle' %} active {% endif %}">
-                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Mots-clé</a>
-                </li>
-                <li class="nav-item {% if current_sous_menu is defined and current_sous_menu == 'themes' %} active {% endif %}">
-                    <a class="nav-link nav-font-bold mr-4" href="#"><i class="fa fa-home mr-2"></i>Thèmes</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="jumbotron text-center">
-        <h1>Modifier données les {{ current_sous_menu }}</h1>
+    <div class="col-12 mt-4 mb-4">
+        <h3 class="w-100">Gérer les données de l'application</h3>
     </div>
+
+    <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+        {#Stages#}
+        <li class="nav-item">
+            <a class="nav-link active" id="liste-stg-tab" data-toggle="tab" href="#stg-content" role="tab" aria-controls="stg" aria-selected="false">Stages</a>
+        </li>
+
+        {#Adresses#}
+        <li class="nav-item">
+            <a class="nav-link" id="liste-adr-tab" data-toggle="tab" href="#adr-content" role="tab" aria-controls="adr" aria-selected="true">Adresses</a>
+        </li>
+
+        {#Entreprises#}
+        <li class="nav-item">
+            <a class="nav-link" id="liste-etr-tab" data-toggle="tab" href="#etr-content" role="tab" aria-controls="etr" aria-selected="true">Entreprises</a>
+        </li>
+
+        {#Mots-clé#}
+        <li class="nav-item">
+            <a class="nav-link" id="liste-mcl-tab" data-toggle="tab" href="#mcl-content" role="tab" aria-controls="mcl" aria-selected="true">Mots-clé</a>
+        </li>
+
+        {#Thèmes#}
+        <li class="nav-item">
+            <a class="nav-link" id="liste-thm-tab" data-toggle="tab" href="#thm-content" role="tab" aria-controls="thm" aria-selected="true">Thèmes</a>
+        </li>
+    </ul>
+
+    <div class="tab-content ml-4 mr-4" id="myTabContent">
+
+        {#Tab Stages#}
+        <div class="tab-pane show active" id="stg-content" role="tabpanel" aria-labelledby="stg-tab">
+
+            {#Bouton d'ajout de nouveaux stages#}
+            <a class="stg-btn stg-create btn btn-primary btn-sm"
+               href="{{ path('admin.create.stages') }}"
+               data-toggle="tooltip" data-placement="top" title="Créer un nouveau stage">
+                <i class="fa fa-fw fa-plus"></i>
+            </a>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Intitulé</th>
+                    <th>Adresse</th>
+                    <th>Pays</th>
+                    <th>Année</th>
+                    <th>Prénom étudiant</th>
+                    <th>Nom étudiant</th>
+                    <th>Promo</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%  for stage in stages %}
+                    <tr>
+                        <td>{{ stage.intitule }}</td>
+                        <td>{{ stage.adresse.adresse }} {{ stage.adresse.ville }}({{ stage.adresse.codePostal }})</td>
+                        <td>{{ stage.adresse.pays }}</td>
+                        <td>{{ stage.annee }}</td>
+                        <td>{{ stage.prenomEtud }}</td>
+                        <td>{{ stage.nomEtud }}</td>
+                        <td>{{ stage.promo }}</td>
+                        <td class="actions-buttons">
+                            <a href="{{ path('admin.edit.stages', {id: stage.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier le stage">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <form action="{{ path('admin.delete.stages', {id: stage.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer le stage">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <i class="fa fa-trash"></i>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {#Tab Adresses#}
+        <div class="tab-pane" id="adr-content" role="tabpanel" aria-labelledby="adr-tab">
+            <h4>Pas encore implémenté</h4>
+        </div>
+
+        {#Tab Entreprises#}
+        <div class="tab-pane" id="etr-content" role="tabpanel" aria-labelledby="etr-tab">
+            <h4>Pas encore implémenté</h4>
+        </div>
+
+        {#Tab Mots-clé#}
+        <div class="tab-pane" id="mcl-content" role="tabpanel" aria-labelledby="mcl-tab">
+            <h4>Pas encore implémenté</h4>
+        </div>
+
+        {#Tab Thèmes#}
+        <div class="tab-pane" id="thm-content" role="tabpanel" aria-labelledby="thm-tab">
+            <h4>Pas encore implémenté</h4>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('/ressources/js/app.gestion.liste.js') }}"></script>
 {% endblock %}

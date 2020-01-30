@@ -14,8 +14,8 @@ class StageSearchType extends AbstractType
     {
         $builder
             ->add('annee')
-            ->add('duree_jours_min')
-            ->add('duree_jours_max')
+            ->add('duree_mois_min')
+            ->add('duree_mois_max')
             ->add('est_gratifie', CheckboxType::class, [
                 'label'    => 'Stage rémunéré uniquement',
                 'required' => false,
