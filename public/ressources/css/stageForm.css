@@ -1,0 +1,28 @@
+.page
+{
+    background-color: #fbf8ff;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.container-form
+{
+    box-shadow: 3px 2px 2px #919191;
+    border: solid 1px #cacaca;
+    margin: auto;
+    background-color: #FFFFFF;
+    padding-bottom: 15px;
+}
+
+.container-form > form > h4
+{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #4b4b4b;
+}
+
+.form-title
+{
+    padding-bottom: 15px;
+    border-bottom: solid 1px #6f6f6f;
+}

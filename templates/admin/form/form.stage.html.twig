@@ -1,0 +1,100 @@
+{{ form_start(form) }}
+
+<h4>Informations générales sur le stage</h4>
+<div class="row">
+    <div class="col-6">
+        {{ form_row(form.sujet) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(form.intitule) }}
+    </div>
+</div>
+
+<h4>Informations à cocher</h4>
+<div class="row mt-4 mb-4">
+    <div class="col-3">
+        {{ form_row(form.est_gratifie) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.embauche) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.contratPro) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.mail_visible) }}
+    </div>
+</div>
+
+<h4>Informations complémentaires sur le stage</h4>
+<div class="row">
+    <div class="col-4">
+        {{ form_row(form.annee) }}
+    </div>
+    <div class="col-4">
+        {{ form_row(form.duree_jours) }}
+    </div>
+    <div class="col-4">
+        {{ form_row(form.gratification) }}
+    </div>
+</div>
+
+<h4>Informations sur l'étudiant</h4>
+<div class="row">
+    <div class="col">
+        {{ form_row(form.nom_etud) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.prenom_etud) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.promo) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.annee_form) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.departement) }}
+    </div>
+</div>
+
+<h4>Production de l'étudiant</h4>
+<div class="row">
+    <div class="col-8">
+        {{ form_row(form.commentaire) }}
+    </div>
+    <div class="col-4">
+        {{ form_row(form.recap) }}
+    </div>
+</div>
+
+<h4>Information sur le tuteur d'entreprise</h4>
+<div class="row">
+    <div class="col-3">
+        {{ form_row(form.prenom_tuteur_ent) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.nom_tuteur_ent) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.mail_tuteur_ent) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.tel_tuteur_ent) }}
+    </div>
+</div>
+
+<h4>Informations annexes</h4>
+<div class="row">
+    <div class="col-6">
+        {{ form_widget(form.adresse) }}
+    </div>
+    <div class="col-6">
+        {{ form_widget(form.motsCle) }}
+        {{ form_widget(form.themes) }}
+    </div>
+</div>
+
+{{ form_rest(form) }}
+<button class="btn btn-primary submitter">Enregistrer</button>
+{{ form_end(form) }}
