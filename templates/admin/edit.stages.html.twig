@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="container mt-4">
-        <h1>Editer le stage</h1>
-        {{ form_start(form) }}
+{% block stylesheets %}
+    <link href="{{ asset('/ressources/css/stageForm.css') }}" rel="stylesheet" />
 
-            {{ form_rest(form) }}
-            <button class="btn btn-primary">Editer</button>
-        {{ form_end(form) }}
+{% endblock %}
+
+{% block body %}
+    <div class="page">
+        <div class="container-form col-10">
+            <h3 class="form-title mt-4">Modifier le stage "{{ stages.sujet }}"</h3>
+            {{ include ("admin/form/form.stage.html.twig" ,{'form': form}) }}
+        </div>
     </div>
+
 
 {% endblock %}
 

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Stage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,8 +14,8 @@ class StageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('sujet')
-            ->add('intitule')
+            ->add('sujet', TextareaType::class)
+            ->add('intitule', TextareaType::class)
             ->add('annee')
             ->add('duree_jours')
             ->add('est_gratifie')
@@ -27,7 +28,7 @@ class StageType extends AbstractType
             ->add('tel_tuteur_ent')
             ->add('mail_visible')
             ->add('mail_tuteur_ent')
-            ->add('commentaire')
+            ->add('commentaire', TextareaType::class)
             ->add('recap')
             ->add('embauche')
             ->add('promo')
