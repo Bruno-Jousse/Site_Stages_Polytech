@@ -92,6 +92,20 @@ class StageRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function findStage(Stage $stage){
+        return $this->findOneBy(array(
+            "annee" => $stage->getAnnee(),
+            "annee_form" => $stage->getAnneeForm(),
+            "departement" => $stage->getDepartement(),
+            "promo" => $stage->getPromo(),
+            "nom_etud" => $stage->getNomEtud(),
+            "prenom_etud" => $stage->getPrenomEtud(),
+            "intitule" => $stage->getIntitule(),
+            "commentaire" => $stage->getCommentaire(),
+            "sujet" => $stage->getSujet()
+        ));
+    }
+
     // /**
     //  * @return Stage[] Returns an array of Stage objects
     //  */
