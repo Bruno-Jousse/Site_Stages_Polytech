@@ -53,6 +53,7 @@ class AdminStageController extends  AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $stage->setEntreprise($stage->getAdresse()->getEntreprise());
             $this->em->persist($stage);
             $this->em->flush();
             $this->addFlash("success", "Stage créé avec succès !");
