@@ -34,12 +34,12 @@
     border: solid 1px gray;
     background-image: url(../images/mapsExample.png);
     background-size: cover;
-    height: 500px;
+    height: 800px;
 }
 
 .result-container
 {
-    height: 500px;
+    height: 800px;
     overflow: auto;
 }
 
@@ -65,4 +65,15 @@
     height: 400px;
 }
 
+.card-link{
+    text-decoration: none;
+    color: black;
+}
 
+.card-link:hover{
+    color:dodgerblue;
+}
+
+.intitule{
+    color: limegreen;
+}

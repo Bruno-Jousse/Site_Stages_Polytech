@@ -20,11 +20,13 @@
                 <h1> <i class="fa fa-upload mr-2"></i> Importer un fichier CSV</h1>
             </div>
             <div class="row center">
-                {{ form(form) }}
+                {{ form_start(form) }}
+                    {{  form_rest(form) }}
+                    <button type="submit" class="btn btn-primary center">Importer</button>
+                {{ form_end(form) }}
             </div>
         </div>
         <div class="col-lg-2 col-sm-2"></div>
-        <button type="submit" class="btn btn-primary center">Importer</button>
     </div>
 
 

@@ -9,7 +9,11 @@
     <div class="col-12 mt-4 mb-4">
         <h3 class="w-100">Gérer les données de l'application</h3>
     </div>
-
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <ul class="nav nav-tabs" id="nav-tab" role="tablist">
         {#Stages#}
         <li class="nav-item">
@@ -76,9 +80,11 @@
                             <a href="{{ path('admin.edit.stages', {id: stage.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier le stage">
                                 <i class="fa fa-pencil"></i>
                             </a>
-                            <form action="{{ path('admin.delete.stages', {id: stage.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer le stage">
+                            <form method="post" action="{{ path('admin.delete.stages', {id: stage.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer le stage">
                                 <input type="hidden" name="_method" value="DELETE"/>
-                                <i class="fa fa-trash"></i>
+                                <button type="submit">
+                                    <i class="fa fa-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>

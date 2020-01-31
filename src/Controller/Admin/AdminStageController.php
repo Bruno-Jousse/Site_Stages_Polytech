@@ -67,12 +67,13 @@ class AdminStageController extends  AbstractController
         if($form->isSubmitted() && $form->isValid()){
             if($this->repo->findStage($stage) == null)
             {
-                if( ($adr = $this->adrRepo->findAdresse($stage->getAdresse())) ){
-                    $stage->setAdresse($adr);
-                }
                 if( ($ent = $this->entRepo->findEntreprise($stage->getAdresse()->getEntreprise())) ){
                     $stage->getAdresse()->setEntreprise($ent);
                 }
+                if( ($adr = $this->adrRepo->findAdresse($stage->getAdresse())) ){
+                    $stage->setAdresse($adr);
+                }
+
                 $stage->setEntreprise($stage->getAdresse()->getEntreprise());
                 $this->em->persist($stage);
                 $this->em->flush();
