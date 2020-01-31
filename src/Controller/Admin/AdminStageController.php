@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Stage;
 use App\Form\StageType;
+use App\Repository\AdresseRepository;
+use App\Repository\EntrepriseRepository;
 use App\Repository\StageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,10 +24,20 @@ class AdminStageController extends  AbstractController
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var AdresseRepository
+     */
+    private $adrRepo;
+    /**
+     * @var EntrepriseRepository
+     */
+    private $entRepo;
 
-    public function __construct(StageRepository $repo, EntityManagerInterface $em){
+    public function __construct(StageRepository $repo, AdresseRepository $adrRepo, EntrepriseRepository $entRepos, EntityManagerInterface $em){
         $this->repo = $repo;
         $this->em = $em;
+        $this->adrRepo = $adrRepo;
+        $this->entRepo = $entRepos;
     }
 
     /**
@@ -53,11 +65,21 @@ class AdminStageController extends  AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $stage->setEntreprise($stage->getAdresse()->getEntreprise());
-            $this->em->persist($stage);
-            $this->em->flush();
-            $this->addFlash("success", "Stage créé avec succès !");
-            return $this->redirectToRoute("admin.index.stages");
+            if($this->repo->findStage($stage) == null)
+            {
+                if( ($ent = $this->entRepo->findEntreprise($stage->getAdresse()->getEntreprise())) ){
+                    $stage->getAdresse()->setEntreprise($ent);
+                }
+                if( ($adr = $this->adrRepo->findAdresse($stage->getAdresse())) ){
+                    $stage->setAdresse($adr);
+                }
+
+                $stage->setEntreprise($stage->getAdresse()->getEntreprise());
+                $this->em->persist($stage);
+                $this->em->flush();
+                $this->addFlash("success", "Stage créé avec succès !");
+                return $this->redirectToRoute("admin.index.stages");
+            }
         }
 
         return $this->render("admin/new.stages.html.twig", [

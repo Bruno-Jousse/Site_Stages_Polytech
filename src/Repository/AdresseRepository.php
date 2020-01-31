@@ -19,6 +19,19 @@ class AdresseRepository extends ServiceEntityRepository
         parent::__construct($registry, Adresse::class);
     }
 
+    public function findAdresse(Adresse $adresse){
+        return $this->findOneBy(array(
+            "adresse" => $adresse->getAdresse(),
+            "adresse_suite" => $adresse->getAdresseSuite(),
+            "ville" => $adresse->getVille(),
+            "pays" => $adresse->getPays(),
+            "continent" => $adresse->getContinent(),
+            "code_postal" => $adresse->getCodePostal(),
+            "latitude" => $adresse->getLatitude(),
+            "longitude" => $adresse->getLongitude()
+        ));
+    }
+
     // /**
     //  * @return Adresse[] Returns an array of Adresse objects
     //  */

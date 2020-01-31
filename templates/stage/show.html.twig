@@ -150,7 +150,9 @@
                     {{ stage.commentaire }}
                 </div>
                 <div class="row mt-4 mb-4">
-                    <a href="{{ stage.recap }}">Accéder au récapitulatif</a>
+                    {% if stage.recap %}
+                        <a href="{{ stage.recap }}">Accéder au récapitulatif</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

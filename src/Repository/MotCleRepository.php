@@ -19,6 +19,12 @@ class MotCleRepository extends ServiceEntityRepository
         parent::__construct($registry, MotCle::class);
     }
 
+    public function findMotCle(MotCle $motCle){
+        return $this->findOneBy(array(
+            "mot_cle" => $motCle->getMotCle()
+        ));
+    }
+
     // /**
     //  * @return MotCle[] Returns an array of MotCle objects
     //  */
