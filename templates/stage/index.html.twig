@@ -3,6 +3,9 @@
 
 {% block stylesheets %}
     <link href="{{ asset('/ressources/css/stageRecherche.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
 {% endblock %}
 
 {% block body %}
@@ -44,14 +47,14 @@
         </div>
     </div>
     <div class="row search-container">
-        <div class="col-6 mt-4 map">
+        <div class="col-6 mt-4 map" id="map">
         </div>
         <div class="col-6 mt-4 result-container">
             <div class="row">
                 {%  for stage in stages %}
                     <div class="col-6">
                         <div class="card mb-4">
-                            <div class="card-body">
+                            <div class="card-body js-marker" id="stage-{{ stage.id }}" data-lat="{{ stage.adresse.latitude }}" data-lng="{{ stage.adresse.longitude }}">
                                 <h5 class="card-title">
                                     <a href="{{ path('stage.show', {id: stage.id, slug: stage.slug}) }}">{{ stage.intitule }}</a>
                                 </h5>
@@ -106,5 +109,12 @@
         </div>
     </div>
 
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('/ressources/js/vendor.js') }}"></script>
+    <script src="{{ asset('/ressources/js/app.map.js') }}"></script>
 
 {% endblock %}
