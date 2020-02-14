@@ -14,6 +14,8 @@ use App\Repository\EntrepriseRepository;
 use App\Repository\StageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,12 +41,15 @@ class ImporterController extends AbstractController
      */
     private $adrRepo;
 
-    public function __construct(StageRepository $repo, AdresseRepository $adrRepo, EntrepriseRepository $entRepo, EntityManagerInterface $em)
+    private $envLocal;
+
+    public function __construct(StageRepository $repo, AdresseRepository $adrRepo, EntrepriseRepository $entRepo, EntityManagerInterface $em, ParameterBagInterface $params)
     {
         $this->repo = $repo;
         $this->em = $em;
         $this->entRepo = $entRepo;
         $this->adrRepo = $adrRepo;
+        $this->envLocal = $params->get("projectDir") . "/.env.local";
     }
 
     /**
@@ -77,8 +82,33 @@ class ImporterController extends AbstractController
         } catch (PhpSpreadsheet\Reader\Exception $e) {
             return;
         }
+
+        $dotenv = new Dotenv();
+        $dotenv->load($this->envLocal);
+        $apiKey = $_ENV["GEOCODE_API_KEY"];
+
         $sheet = $spreadsheet->getSheet(0);
         $rows = $sheet->toArray();
+
+        try {
+            $gps = $this->getGPSCoordinates($adresse_str . " " . $ville . " " . $pays, $apiKey);
+
+            if ($gps["lat"] == "Not defined") {
+                $gps = $this->getGPSCoordinates($ville . " " . $pays, $apiKey);
+            }
+
+            $adresse->setLatitude($gps["lat"]);
+            $adresse->setLongitude($gps["lon"]);
+        }
+        catch(\Exception $e){
+            echo($e);
+            $gps = [];
+            $gps["lat"] = "Not defined";
+            $gps["lon"] = "Not defined";
+        }
+
+        $adresses = [];
+
         foreach($rows as $data){
             if(!$header){
                 $header = $data;
@@ -154,8 +184,8 @@ class ImporterController extends AbstractController
                     ->setPays($pays)
                     ->setEntreprise($entreprise)
                     ->setContinent("Not defined")
-                    ->setLatitude("Not defined")
-                    ->setLongitude("Not defined")
+                    //->setLatitude($lat)
+                    //->setLongitude($lng)
                     ->setVille($ville);
                 if( ($adr = $this->adrRepo->findAdresse($adresse)) ){
                     $adresse = $adr;
@@ -193,9 +223,56 @@ class ImporterController extends AbstractController
 
                 if($this->repo->findStage($stage) == null) {
                     $this->em->persist($stage);
+                    //TODO Récupérer l'adresse en BD et ajouter à adressses, puis set gps
                     $this->em->flush();
                 }
             }
         }
+    }
+
+
+    //TODO: Batch multiple addresses using MapQuest OPenGeocodingAPI
+    private function getGPSCoordinates($adresse, $apiKey){
+        $ret = [];
+        $res["lat"] = "Not defined";
+        $res["lon"] = "Not defined";
+
+        $adresseUrl = urlencode($adresse);
+        //$url = "https://maps.google.com/maps/api/geocode/json?key=" . $apiKey . "&address=" . $adresseUrl . "&language=fr";
+        //$url = "https://nominatim.openstreetmap.org/search?format=json&addressdetails=0&q=" . $adresseUrl;
+        $url = "http://open.mapquestapi.com/geocoding/v1/address?key=". $apiKey ."&location=" . $adresseUrl ."&maxResults=1";
+        /*
+        $response = file_get_contents($url);
+        $json = json_decode($response, true);
+        */
+        //Initialize cURL.
+        $ch = curl_init();
+
+        //Set the URL that you want to GET by using the CURLOPT_URL option.
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+        //Execute the request.
+        $json = curl_exec($ch);
+
+        //Close the cURL handle.
+        curl_close($ch);
+
+        var_dump($json);
+
+        if($json[0]) {
+
+            $res["lat"] = $json["results"][0]['lat'];
+            $res["lon"] = $json["results"][0]['lon'];
+
+            var_dump($res["lat"] . " " . $res["lon"]);
+        }
+
+        return $res;
     }
 }
