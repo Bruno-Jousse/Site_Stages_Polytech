@@ -1,6 +1,18 @@
+html, body
+{
+    height: 100%;
+}
+
 .search-container
 {
     margin-right: 0 !important;
+    height: calc(100% - 97px);
+}
+
+.result-search-and-filter
+{
+    height: calc(100% - 59px);
+    overflow: auto;
 }
 
 
@@ -34,24 +46,32 @@
     border: solid 1px gray;
     /*background-image: url(../images/mapsExample.png);*/
     /*background-size: cover;*/
-    height: 500px;
+    height: 100%;
+
 }
 
 .result-container
 {
-    height: 500px;
+    height: 100%;
     overflow: auto;
 }
 
+.card
+{
+    width: -webkit-fill-available;
+}
 .card-text
 {
     font-size: 15px;
+    color: #000000;
+    text-decoration: none;
 }
 
 .icones > .col
 {
     text-align: center;
 }
+
 
 .no-result
 {
@@ -65,4 +85,15 @@
     height: 400px;
 }
 
+.card-link{
+    text-decoration: none;
+    color: black;
+}
 
+.card-link:hover{
+    color:dodgerblue;
+}
+
+.intitule{
+    color: limegreen;
+}

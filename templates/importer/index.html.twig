@@ -8,10 +8,26 @@
 {% block body %}
     <div class="row mt-4">
 
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="col-lg-2 col-sm-2"></div>
 
-        <div class="d-flex justify-content-center align-items-center drop-file col-lg-8 col-sm-8">
-            <h1> <i class="fa fa-upload mr-2"></i> Importer un fichier CSV</h1>
+        <div class="drop-file col-lg-8 col-sm-8">
+            <div class="row import-title">
+                <h1> <i class="fa fa-upload mr-2"></i> Importer un fichier CSV</h1>
+            </div>
+
+            <div class="import-form">
+                {{ form_start(form) }}
+                {{  form_rest(form) }}
+                <button type="submit" class="btn btn-primary center">Importer</button>
+            </div>
+
+
+            {{ form_end(form) }}
         </div>
         <div class="col-lg-2 col-sm-2"></div>
     </div>

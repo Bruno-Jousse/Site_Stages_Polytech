@@ -4,4 +4,18 @@
     color: #6f6f6f;
     background-color: #e2e2e2;
     height: 300px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.import-title
+{
+    padding-top: 30px;
+    padding-bottom: 40px;
+    align-self: center;
+}
+.import-form
+{
+    padding-left: 20px;
 }
