@@ -100,8 +100,7 @@ class StageRepository extends ServiceEntityRepository
             "promo" => $stage->getPromo(),
             "nom_etud" => $stage->getNomEtud(),
             "prenom_etud" => $stage->getPrenomEtud(),
-            "intitule" => $stage->getIntitule(),
-            "commentaire" => $stage->getCommentaire(),
+            //"intitule" => $stage->getIntitule(),
             "sujet" => $stage->getSujet()
         ));
     }

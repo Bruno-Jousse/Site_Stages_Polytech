@@ -65,8 +65,10 @@ class ImporterController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $file = $form->get("file")->getData();
             if($file){
-                $this->saveCSV($file);
-                $this->addFlash("success", "Informations importées avec succès !");
+                if($this->saveCSV($file))
+                    $this->addFlash("success", "Informations importées avec succès !");
+                else
+                    $this->addFlash("error", "Erreur lors de l'importation du fichier");
             }
         }
         return $this->render("importer/index.html.twig", [
@@ -80,45 +82,49 @@ class ImporterController extends AbstractController
         try {
             $spreadsheet = PhpSpreadsheet\IOFactory::load($file);
         } catch (PhpSpreadsheet\Reader\Exception $e) {
-            return;
+            return false;
         }
 
         $dotenv = new Dotenv();
         $dotenv->load($this->envLocal);
         $apiKey = $_ENV["GEOCODE_API_KEY"];
 
-        $sheet = $spreadsheet->getSheet(0);
+        try {
+            $sheet = $spreadsheet->getSheet(0);
+        } catch (PhpSpreadsheet\Exception $e) {
+            return false;
+        }
         $rows = $sheet->toArray();
 
-        try {
-            $gps = $this->getGPSCoordinates($adresse_str . " " . $ville . " " . $pays, $apiKey);
+        $adressesGps = [];
 
-            if ($gps["lat"] == "Not defined") {
-                $gps = $this->getGPSCoordinates($ville . " " . $pays, $apiKey);
+        foreach($rows as $key => $data) {
+            if(!$header){
+                $header = $data;
             }
-
-            $adresse->setLatitude($gps["lat"]);
-            $adresse->setLongitude($gps["lon"]);
+            else {
+                $row = array_combine($header, $data);
+                $adressesGps[$key] = array(
+                    "street" => $row["adresse"],
+                    "city" => $row["ville"],
+                    "country" => $row["Pays"],
+                    "postalCode" => $row["codepostal"]
+                );
+            }
         }
-        catch(\Exception $e){
-            echo($e);
-            $gps = [];
-            $gps["lat"] = "Not defined";
-            $gps["lon"] = "Not defined";
-        }
 
-        $adresses = [];
+        $gpss = $this->getGPSCoordinates($adressesGps, $apiKey);
 
-        foreach($rows as $data){
+        $header = NULL;
+        foreach($rows as $key => $data){
             if(!$header){
                 $header = $data;
             }
             else{
                 $row = array_combine($header, $data);
-                //var_dump($row);
                 $nomEtud = $row["nom_user"];
                 $prenomEtud = $row["prenom_user"];
-                $promo = $row["nom_promo"];
+                $promo = (int) $row["nom_promo"];
                 $departement = $row["nom_formation"];
                 $annee_form = $row["type_stage"];
                 $date_deb = $row["datedebut"];
@@ -129,15 +135,23 @@ class ImporterController extends AbstractController
                 $codePostal = $row["codepostal"];
                 $ville = $row["ville"];
                 $pays = $row["Pays"];
-                $annee = $row["Nom_Periode"];
+                $annee = (int) $row["Nom_Periode"];
                 $sujet = $row["sujet"];
-                $theme = $row["theme"];
                 $intitule = $row["intitule"];
                 $nom_tuteur_ent = $row["Nom"];
                 $prenom_tuteur_ent = $row["prenom"];
                 $mail = $row["mail"];
                 $tel = $row["tel_prof"];
-                $gratification = $row["Gratification_Mensuelle"];
+                $gratification = (float) $row["Gratification_Mensuelle"];
+
+                if(!isset($gpss[$key])){
+                    $lat = "Not defined";
+                    $lon = "Not defined";
+                }
+                else{
+                    $lat = $gpss[$key]["lat"];
+                    $lon = $gpss[$key]["lon"];
+                }
 
                 //Not used
                 $idStage = $row["id_stage"];
@@ -156,11 +170,16 @@ class ImporterController extends AbstractController
                 $id_formation = $row["id_formation"];
                 $lieu_stage = $row["Lieu_stage"];
                 $id_option = $row["id_option"];
+                $theme = $row["theme"];
 
                 //Manque:
                 //Mail visible ou non
                 //Lien vers les transparants
                 //Entreprise privée ou publique
+                //Stage a mené à une embauche
+                //Continent
+                //Commentaire étudiant
+                //
 
                 //Pas de mots clés
 
@@ -184,9 +203,10 @@ class ImporterController extends AbstractController
                     ->setPays($pays)
                     ->setEntreprise($entreprise)
                     ->setContinent("Not defined")
-                    //->setLatitude($lat)
-                    //->setLongitude($lng)
+                    ->setLatitude($lat)
+                    ->setLongitude($lon)
                     ->setVille($ville);
+
                 if( ($adr = $this->adrRepo->findAdresse($adresse)) ){
                     $adresse = $adr;
                 }
@@ -194,7 +214,12 @@ class ImporterController extends AbstractController
                 $date1 = date_create_from_format("d/m/Y", $date_deb);
                 $date2 = date_create_from_format("d/m/Y", $date_fin);
 
-                $nbJours = ($date1->diff($date2))->format("%a");
+                if(!$date1 || !$date2){
+                    $nbJours = -1;
+                }
+                else{
+                    $nbJours = ($date1->diff($date2))->format("%a");
+                }
 
                 $stage
                     ->setEntreprise($entreprise)
@@ -223,33 +248,48 @@ class ImporterController extends AbstractController
 
                 if($this->repo->findStage($stage) == null) {
                     $this->em->persist($stage);
-                    //TODO Récupérer l'adresse en BD et ajouter à adressses, puis set gps
                     $this->em->flush();
                 }
             }
         }
+
+        return true;
     }
 
+    private function getGPSCoordinates($adresses, $apiKey){
+        $gpss = [];
+        $url = "http://open.mapquestapi.com/geocoding/v1/batch?key=". $apiKey;
+        $post = array();
+        $keys = [];
 
-    //TODO: Batch multiple addresses using MapQuest OPenGeocodingAPI
-    private function getGPSCoordinates($adresse, $apiKey){
-        $ret = [];
-        $res["lat"] = "Not defined";
-        $res["lon"] = "Not defined";
+        foreach ($adresses as $key => $adresse){
+            //Ce tableau garde en mémoire les clés pour pouvoir par la suite associé la bonne coordonnées à la bonne adresse
+            $keys[$adresse["street"].$adresse["city"].$adresse["country"]] = $key;
+            $gpss[$key]["lat"] = "Not defined";
+            $gpss[$key]["lon"] = "Not defined";
+        }
 
-        $adresseUrl = urlencode($adresse);
-        //$url = "https://maps.google.com/maps/api/geocode/json?key=" . $apiKey . "&address=" . $adresseUrl . "&language=fr";
-        //$url = "https://nominatim.openstreetmap.org/search?format=json&addressdetails=0&q=" . $adresseUrl;
-        $url = "http://open.mapquestapi.com/geocoding/v1/address?key=". $apiKey ."&location=" . $adresseUrl ."&maxResults=1";
-        /*
-        $response = file_get_contents($url);
-        $json = json_decode($response, true);
-        */
+        $post = array_values($adresses);
+        $postValues["locations"] = $post;
+
+        //var_dump($post);
+        $encodedJson = json_encode($postValues);
+        //var_dump($encodedJson);
+
         //Initialize cURL.
         $ch = curl_init();
 
         //Set the URL that you want to GET by using the CURLOPT_URL option.
         curl_setopt($ch, CURLOPT_URL, $url);
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedJson);
+
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($encodedJson))
+        );
 
         //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -263,16 +303,34 @@ class ImporterController extends AbstractController
         //Close the cURL handle.
         curl_close($ch);
 
-        var_dump($json);
+        //var_dump($json);
 
-        if($json[0]) {
+        $decodedJson = json_decode($json);
 
-            $res["lat"] = $json["results"][0]['lat'];
-            $res["lon"] = $json["results"][0]['lon'];
+        if($decodedJson->info->statuscode === 0) {
 
-            var_dump($res["lat"] . " " . $res["lon"]);
+            foreach($decodedJson->results as $result){
+                $gps = [];
+                $key = NULL;
+                $gps["lat"] = "Not defined";
+                $gps["lon"] = "Not defined";
+
+                try{
+                    //var_dump($result->providedLocation->street . $result->providedLocation->city . $result->providedLocation->country);
+                    $key =  $keys[$result->providedLocation->street . $result->providedLocation->city . $result->providedLocation->country];
+
+                    $gps["lat"] = (string) $result->locations[0]->latLng->lat;
+                    $gps["lon"] = (string) $result->locations[0]->latLng->lng;
+                } catch (\Exception $e){
+                } finally {
+                    if(isset($key))
+                        $gpss[$key] = $gps;
+                }
+            }
         }
 
-        return $res;
+        //var_dump($gpss);
+
+        return $gpss;
     }
 }
