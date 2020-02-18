@@ -26,9 +26,9 @@ class AdresseRepository extends ServiceEntityRepository
             "ville" => $adresse->getVille(),
             "pays" => $adresse->getPays(),
             "continent" => $adresse->getContinent(),
-            "code_postal" => $adresse->getCodePostal(),
-            "latitude" => $adresse->getLatitude(),
-            "longitude" => $adresse->getLongitude()
+            "code_postal" => $adresse->getCodePostal()
+            //"latitude" => $adresse->getLatitude(),
+            //"longitude" => $adresse->getLongitude()
         ));
     }
 
