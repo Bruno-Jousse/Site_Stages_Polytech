@@ -22,7 +22,12 @@
 
                     {{ form_start(form) }}
                     <div class="row ml-0" >
-                        {{ form_row(form.localisation) }}
+                        {{ form_row(form.ville) }}
+                        <p class="ou">ou</p>
+                        {{ form_row(form.pays) }}
+                        <p class="ou">ou</p>
+                        {{ form_row(form.continent) }}
+
                         {{ form_row(form.themes ) }}
                         {{ form_row(form.annee) }}
                         {{ form_row(form.entreprise) }}

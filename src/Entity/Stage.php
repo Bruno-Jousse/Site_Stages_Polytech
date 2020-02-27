@@ -16,7 +16,10 @@ class Stage
 {
     public const DEPARTEMENT = [
         0 => "G.M",
-        1 => "G.P"
+        1 => "G.P",
+        2 => "G.B",
+        3 => "G.C",
+        4 => "G.E"
     ];
 
     public const ANNEE_FORM = [
@@ -512,8 +515,6 @@ class Stage
     }
 
     public static function stringToDepartement($string){
-        $res = 0;
-        $res = array_search($string, self::DEPARTEMENT);
-        return $res;
+        return array_search($string, self::DEPARTEMENT);
     }
 }

@@ -56,8 +56,18 @@ class StageSearch
     /**
      * @var string|null
      */
-    //Localisation = adresse, ville, code postal, pays, continent
-    private $localisation;
+    private $ville;
+
+    /**
+     * @var string|null
+     */
+    private $pays;
+
+    /**
+     * @var string|null
+     */
+    private $continent;
+
 
     /**
      * @var  string|null
@@ -221,22 +231,6 @@ class StageSearch
     /**
      * @return string|null
      */
-    public function getLocalisation(): ?string
-    {
-        return $this->localisation;
-    }
-
-    /**
-     * @param string|null $localisation
-     */
-    public function setLocalisation(?string $localisation): void
-    {
-        $this->localisation = $localisation;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getEntreprise(): ?string
     {
         return $this->entreprise;
@@ -296,6 +290,54 @@ class StageSearch
     public function getDureeJoursMax(): ?int
     {
         return $this->duree_mois_max * 30;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    /**
+     * @param string|null $ville
+     */
+    public function setVille(?string $ville): void
+    {
+        $this->ville = $ville;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    /**
+     * @param string|null $pays
+     */
+    public function setPays(?string $pays): void
+    {
+        $this->pays = $pays;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContinent(): ?string
+    {
+        return $this->continent;
+    }
+
+    /**
+     * @param string|null $continent
+     */
+    public function setContinent(?string $continent): void
+    {
+        $this->continent = $continent;
     }
 
 

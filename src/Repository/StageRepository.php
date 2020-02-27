@@ -25,70 +25,73 @@ class StageRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder("s");
         if ($search->getAnnee()){
-            $query = $query->where("s.annee = :p")
+            $query->andWhere("s.annee = :p")
                 ->setParameter("p", $search->getAnnee());
         }
         if ($search->getEmbauche()){
-            $query = $query->where("s.embauche = :p")
+            $query->andWhere("s.embauche = :p")
                 ->setParameter("p", $search->getEmbauche());
         }
         if ($search->getAnneeForm()){
             $annee = array_search($search->getAnneeForm(), Stage::ANNEE_FORM);
-            $query = $query->where("s.annee_form = :p")
+            $query->andWhere("s.annee_form = :p")
                 ->setParameter("p", $annee);
         }
         if ($search->getDepartement()){
             $departement = array_search($search->getDepartement(), Stage::DEPARTEMENT);
-            $query = $query->where("s.departement = :p")
+            $query->andWhere("s.departement = :p")
                 ->setParameter("p", $departement);
         }
         if ($search->getMotsCle()){
-            $query = $query->innerJoin("s.motsCle", "mc")
-                ->where("mc.motCle = :p")
+            $query = $query->innerJoin("s.motsCle", "mc");
+            $query->andWhere("mc.motCle = :p")
                 ->setParameter("p", $search->getAnnee());
         }
         if ($search->getPromo()){
-        $query = $query->where("s.promo = :p")
-            ->setParameter("p", $search->getPromo());
+            $query->andWhere("s.promo = :p")
+                ->setParameter("p", $search->getPromo());
         }
         if ($search->getThemes()){
-            $query =  $query->innerJoin("s.themes", "t")
-                ->where("t.theme = :p")
+            $query =  $query->innerJoin("s.themes", "t");
+            $query->andWhere("t.theme = :p")
                 ->setParameter("p", $search->getThemes());
         }
         if ($search->getContratPro()){
-            $query = $query->where("s.contratPro = :p")
+            $query->andWhere("s.contratPro = :p")
                 ->setParameter("p", $search->getContratPro());
         }
         if ($search->getDureeJoursMax()){
-            $query = $query->where("s.duree_jours <= :p")
+            $query->andWhere("s.duree_jours <= :p")
                 ->setParameter("p", $search->getDureeJoursMax());
         }
         if ($search->getDureeJoursMin()){
-            $query = $query->where("s.duree_jours >= :p")
+            $query->andWhere("s.duree_jours >= :p")
                 ->setParameter("p", $search->getDureeJoursMin());
         }
         if ($search->getEntreprise()){
-            $query =  $query->innerJoin("s.entreprise", "e")
-                ->where("e.nom = :p")
+            $query =  $query->innerJoin("s.entreprise", "e");
+            $query->andWhere("e.nom = :p")
                 ->setParameter("p", $search->getEntreprise());
         }
         if ($search->getEstGratifie()){
-            $query = $query->where("s.est_gratifie = :p")
+            $query->andWhere("s.est_gratifie = :p")
                 ->setParameter("p", $search->getEstGratifie());
         }
-        if ($search->getLocalisation()){
-            $query =  $query->innerJoin("s.adresse", "a")
-                ->where($query->expr()->orX(
-                    $query->expr()->like("a.adresse", ":pLike"),
-                    $query->expr()->eq("a.ville", ":p"),
-                    $query->expr()->eq("a.pays", ":p"),
-                    $query->expr()->eq("a.continent", ":p"),
-                    $query->expr()->eq("a.code_postal", ":p")
-                ))
-                ->setParameters(array("p" => $search->getLocalisation(), "pLike"=> "%".$search->getLocalisation()."%"));
-        }
 
+        $query =  $query->innerJoin("s.adresse", "a");
+        $orX = $query->expr()->orX();
+        if( $search->getVille() ){
+            $orX->add($query->expr()->like("a.ville", $query->expr()->literal("%".$search->getVille()."%")));
+        }
+        if( $search->getPays() ){
+            $orX->add($query->expr()->like("a.pays", $query->expr()->literal("%".$search->getPays()."%")));
+        }
+        if( $search->getContinent() ){
+            $orX->add($query->expr()->like("a.continent",  $query->expr()->literal("%".$search->getContinent()."%")));
+        }
+        if($orX->count() >0) {
+            $query->andWhere($orX);
+        }
         return $query->getQuery()->getResult();
     }
 
