@@ -154,36 +154,26 @@ class ImporterController extends AbstractController
                 }
 
                 //Not used
-                $idStage = $row["id_stage"];
                 $civilite = $row["nom_civilite"];
                 $option = $row["Option"];
                 $civilite_tuteur_ent = $row["nom_civilite1"];
                 $nom_tuteur_ent2 = $row["Nom1"];
                 $prenom_tuteur_ent2 = $row["prenom1"];
-                $civilite_tuteur_ent = $row["nom_civilite2"];
+                $civilite_tuteur_ent2 = $row["nom_civilite2"];
                 $mail2 = $row["mail1"];
                 $tel2 = $row["tel_prof1"];
-                $id_type_stage = $row["id_typestage"];
-                $id_pays = $row["id_pays"];
-                $id_periode_stage = $row["id_periodestage"];
-                $id_promo = $row["id_promo"];
-                $id_formation = $row["id_formation"];
-                $lieu_stage = $row["Lieu_stage"];
-                $id_option = $row["id_option"];
                 $theme = $row["theme"];
 
                 //Manque:
+                //Intitulé (vide)
                 //Mail visible ou non
                 //Lien vers les transparants
                 //Entreprise privée ou publique
                 //Stage a mené à une embauche
                 //Continent
                 //Commentaire étudiant
-                //
-
-                //Pas de mots clés
-
-                //Pas de thèmes
+                //Thèmes (vide)
+                //Mots clés
 
                 $entreprise = new Entreprise();
                 $adresse = new Adresse();
