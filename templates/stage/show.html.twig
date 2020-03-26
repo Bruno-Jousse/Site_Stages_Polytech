@@ -88,10 +88,6 @@
                     </div>
 
                 </div>
-                <div class="row ml-1 mt-4">
-                    <p><strong>Tuteur enseignant du stage: </strong> {{ stage.nomTuteurEnt }} {{ stage.prenomTuteurEnt }} </p>
-                </div>
-
 
                 <br/>
                 <div class="row ml-1">
@@ -118,7 +114,7 @@
                 </div>
                 {% if stage.mailVisible %}
                     <div class="row ml-1 mt-4">
-                        <strong>Contacts du tuteur enseignant:</strong>
+                        <p><strong>Tuteur entreprise du stage: </strong> {{ stage.nomTuteurEnt }} {{ stage.prenomTuteurEnt }} </p>
                     </div>
                     <div class="row ml-1 mt-2">
                         <div class="col text-center">
@@ -129,19 +125,11 @@
                         </div>
                     </div>
                 {% endif %}
-                <!--
-                <div class="row">
-                    <div class="col">
-                        {//% for theme in stage.themes %}
-
-                        {//% include "themePere.html.twig" %}
-                        Dans themePere.html.twig : récursivité avec {//% include "themePere.html.twig" %}
-                        {//% endfor %}
-                    </div>
-                </div>
-                -->
                 <div class="row ml-1 mt-4">
-                    <p><strong>Mots-clé: </strong> {% for motCle in stage.motsCle %}{{ motCle.motCle }} - {% else %}Aucun mots-clé associé{% endfor %}</p>
+                    <p><strong>Thèmes: </strong> {% for theme in stage.themes %}{{ theme.theme }} - {% else %}Aucun thème associé{% endfor %}</p>
+                </div>
+                <div class="row ml-1 mt-4">
+                    <p><strong>Mots-clés: </strong> {% for motCle in stage.motsCles %}{{ motCle.motCle }} - {% else %}Aucun mot-clé associé{% endfor %}</p>
                 </div>
                 <div class="row ml-1 mt-4">
                     <p><strong>Commentaire: </strong></p>

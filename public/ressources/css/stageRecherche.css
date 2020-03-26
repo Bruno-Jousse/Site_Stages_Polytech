@@ -101,3 +101,7 @@ html, body
 .ou{
     margin-top: 30px;
 }
+
+.select2{
+    min-width: 200px !important;
+}

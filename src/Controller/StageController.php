@@ -8,6 +8,7 @@ use App\Entity\Search\StageSearch;
 use App\Entity\Stage;
 use App\Form\StageSearchType;
 use App\Repository\StageRepository;
+use App\Repository\ThemeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,15 +31,16 @@ class StageController extends  AbstractController
     /**
      * @Route("/stages", name="stage.index")
      * @param Request $request
+     * @param ThemeRepository $themeRepo
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request, ThemeRepository $themeRepo): Response
     {
         $search = new StageSearch();
         $form = $this->createForm(StageSearchType::class, $search);
         $form->handleRequest($request);
 
-        $stages = $this->repo->filtrerStages($search);
+        $stages = $this->repo->filtrerStages($search, $themeRepo);
         return $this->render("stage/index.html.twig", [
             "current_menu" => self::CURRENT_MENU,
             "stages" => $stages,

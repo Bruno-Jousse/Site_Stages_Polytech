@@ -26,7 +26,7 @@ class MotCle
     private $motCle;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Stage", mappedBy="motsCle", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Stage", mappedBy="motsCles", cascade={"persist"})
      */
     private $stages;
 

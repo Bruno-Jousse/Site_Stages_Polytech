@@ -149,7 +149,7 @@ class Stage
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="stages", cascade={"persist"})
      */
-    private $motsCle;
+    private $motsCles;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprise", inversedBy="stages", cascade={"persist"})
@@ -160,7 +160,7 @@ class Stage
     public function __construct()
     {
         $this->themes = new ArrayCollection();
-        $this->motsCle = new ArrayCollection();
+        $this->motsCles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -460,15 +460,15 @@ class Stage
     /**
      * @return Collection|MotCle[]
      */
-    public function getMotsCle(): Collection
+    public function getMotsCles(): Collection
     {
-        return $this->motsCle;
+        return $this->motsCles;
     }
 
     public function addMotsCle(MotCle $motsCle): self
     {
-        if (!$this->motsCle->contains($motsCle)) {
-            $this->motsCle[] = $motsCle;
+        if (!$this->motsCles->contains($motsCle)) {
+            $this->motsCles[] = $motsCle;
         }
 
         return $this;
@@ -476,8 +476,8 @@ class Stage
 
     public function removeMotsCle(MotCle $motsCle): self
     {
-        if ($this->motsCle->contains($motsCle)) {
-            $this->motsCle->removeElement($motsCle);
+        if ($this->motsCles->contains($motsCle)) {
+            $this->motsCles->removeElement($motsCle);
         }
 
         return $this;

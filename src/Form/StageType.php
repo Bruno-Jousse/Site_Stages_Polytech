@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\MotCle;
 use App\Entity\Stage;
+use App\Entity\Theme;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -34,17 +37,19 @@ class StageType extends AbstractType
             ->add('promo')
             ->add('annee_form')
             ->add('departement')
-            ->add('themes', CollectionType::class, array(
-                'entry_type' => ThemeType::class,
-                'allow_add' => true,
-                'allow_delete' => true
-            ))
+            ->add('themes', EntityType::class, [
+                "class" => Theme::class,
+                "choice_label" => "theme",
+                "multiple" => true,
+                "required" => false
+            ])
             ->add('adresse', AdresseType::class)
-            ->add('motsCle', CollectionType::class, array(
-                'entry_type' => MotCleType::class,
-                'allow_add' => true,
-                'allow_delete' => true
-            ))
+            ->add('motsCles', EntityType::class, [
+                "class" => MotCle::class,
+                "choice_label" => "motCle",
+                "multiple" => true,
+                "required" => false
+            ])
         ;
     }
 

@@ -2,9 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\MotCle;
 use App\Entity\Search\StageSearch;
+use App\Entity\Theme;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -35,8 +39,18 @@ class StageSearchType extends AbstractType
             ->add('pays')
             ->add('ville')
             ->add('entreprise')
-            ->add('motsCle')
-            ->add('themes')
+            ->add('motsCles', EntityType::class, [
+                "class" => MotCle::class,
+                "choice_label" => "motCle",
+                "multiple" => true,
+                "required" => false
+            ])
+            ->add('themes', EntityType::class, [
+                "class" => Theme::class,
+                "choice_label" => "theme",
+                "multiple" => true,
+                "required" => false
+            ])
         ;
     }
 

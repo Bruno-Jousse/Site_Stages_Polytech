@@ -77,12 +77,18 @@ class StageSearch
     /**
      * @var array|null
      */
-    private $motsCle;
+    private $motsCles;
 
     /**
      * @var array|null
      */
     private $themes;
+
+    public function __construct()
+    {
+        $this->motsCles = array();
+        $this->themes = array();
+    }
 
     /**
      * @return int|null
@@ -247,17 +253,17 @@ class StageSearch
     /**
      * @return array|null
      */
-    public function getMotsCle(): ?array
+    public function getMotsCles(): ?array
     {
-        return $this->motsCle;
+        return $this->motsCles;
     }
 
     /**
-     * @param array|null $motsCle
+     * @param array|null $motsCles
      */
-    public function setMotsCle(?array $motsCle): void
+    public function setMotsCles(?array $motsCles): void
     {
-        $this->motsCle = $motsCle;
+        $this->motsCles = $motsCles;
     }
 
     /**
