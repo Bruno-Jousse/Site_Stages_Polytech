@@ -40,22 +40,35 @@ class Entreprise
      */
     private $stages;
 
+    /**
+     * Entreprise constructor.
+     */
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
         $this->stages = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
+    /**
+     * @param string $nom
+     * @return $this
+     */
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
@@ -63,15 +76,25 @@ class Entreprise
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getEstPrivee(): ?bool
     {
         return $this->est_privee;
     }
 
+    /**
+     * @return string
+     */
     public function getEstPriveeType(): string{
         return ($this->est_privee ? "privée" : "publique");
     }
 
+    /**
+     * @param bool $est_privee
+     * @return $this
+     */
     public function setEstPrivee(bool $est_privee): self
     {
         $this->est_privee = $est_privee;
@@ -87,6 +110,10 @@ class Entreprise
         return $this->adresses;
     }
 
+    /**
+     * @param Adresse $adress
+     * @return $this
+     */
     public function addAdress(Adresse $adress): self
     {
         if (!$this->adresses->contains($adress)) {
@@ -97,6 +124,10 @@ class Entreprise
         return $this;
     }
 
+    /**
+     * @param Adresse $adress
+     * @return $this
+     */
     public function removeAdress(Adresse $adress): self
     {
         if ($this->adresses->contains($adress)) {
@@ -118,6 +149,10 @@ class Entreprise
         return $this->stages;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function addStage(Stage $stage): self
     {
         if (!$this->stages->contains($stage)) {
@@ -128,6 +163,10 @@ class Entreprise
         return $this;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function removeStage(Stage $stage): self
     {
         if ($this->stages->contains($stage)) {

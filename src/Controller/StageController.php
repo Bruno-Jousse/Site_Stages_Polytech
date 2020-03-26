@@ -23,12 +23,19 @@ class StageController extends  AbstractController
      */
     private $repo;
 
+    /**
+     * StageController constructor.
+     * @param StageRepository $repo
+     */
     public function __construct(StageRepository $repo)
     {
         $this->repo = $repo;
     }
 
     /**
+     * Affiche la page de recherche de stage
+     * Traite le formulaire de filtrage
+     *
      * @Route("/stages", name="stage.index")
      * @param Request $request
      * @param ThemeRepository $themeRepo
@@ -49,6 +56,8 @@ class StageController extends  AbstractController
     }
 
     /**
+     * Affiche les détails d'un stage
+     *
      * @Route("/stages/{slug}-{id}", name="stage.show", requirements={"slug": "[a-z0-9\-]*"}))
      * @param int $id
      * @return Response

@@ -30,21 +30,34 @@ class MotCle
      */
     private $stages;
 
+    /**
+     * MotCle constructor.
+     */
     public function __construct()
     {
         $this->stages = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getMotCle(): ?string
     {
         return $this->motCle;
     }
 
+    /**
+     * @param string $motCle
+     * @return $this
+     */
     public function setMotCle(string $motCle): self
     {
         $this->motCle = $motCle;
@@ -60,6 +73,10 @@ class MotCle
         return $this->stages;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function addStage(Stage $stage): self
     {
         if (!$this->stages->contains($stage)) {
@@ -70,6 +87,10 @@ class MotCle
         return $this;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function removeStage(Stage $stage): self
     {
         if ($this->stages->contains($stage)) {

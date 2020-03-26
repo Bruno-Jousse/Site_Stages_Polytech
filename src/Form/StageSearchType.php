@@ -14,6 +14,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StageSearchType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -32,9 +36,12 @@ class StageSearchType extends AbstractType
                 'label'    => 'Entreprise recrutant uniquement',
                 'required' => false,
             ])
+            //TODO: gérer les droits d'accès aux  stages
             ->add('promo')
             ->add('annee_form')
             ->add('departement')
+
+            //TODO: Transformer ces champs en EntityType
             ->add('continent')
             ->add('pays')
             ->add('ville')
@@ -54,6 +61,9 @@ class StageSearchType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -61,6 +71,9 @@ class StageSearchType extends AbstractType
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return "";

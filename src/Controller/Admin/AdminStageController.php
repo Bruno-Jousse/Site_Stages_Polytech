@@ -33,6 +33,13 @@ class AdminStageController extends  AbstractController
      */
     private $entRepo;
 
+    /**
+     * AdminStageController constructor.
+     * @param StageRepository $repo
+     * @param AdresseRepository $adrRepo
+     * @param EntrepriseRepository $entRepos
+     * @param EntityManagerInterface $em
+     */
     public function __construct(StageRepository $repo, AdresseRepository $adrRepo, EntrepriseRepository $entRepos, EntityManagerInterface $em){
         $this->repo = $repo;
         $this->em = $em;
@@ -41,6 +48,8 @@ class AdminStageController extends  AbstractController
     }
 
     /**
+     * Affiche la page d'administration des stages (tableau contenant tous les stages)
+     *
      * @Route("/admin/stages", name="admin.index.stages")
      */
     public function index(): Response
@@ -54,6 +63,9 @@ class AdminStageController extends  AbstractController
     }
 
     /**
+     * Affiche la page de création d'un stage
+     * Traite le formulaire de création une fois soumis
+     *
      * @Route("/admin/stages/create", name="admin.create.stages")
      * @param Request $request
      * @return Response
@@ -65,11 +77,14 @@ class AdminStageController extends  AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            //On vérifie que le stage n'existe pas déjà
             if($this->repo->findStage($stage) == null)
             {
+                //On vérifie que l'entreprise n'existe pas déjà
                 if( ($ent = $this->entRepo->findEntreprise($stage->getAdresse()->getEntreprise())) ){
                     $stage->getAdresse()->setEntreprise($ent);
                 }
+                //On vérifie que l'adresse n'existe pas déjà
                 if( ($adr = $this->adrRepo->findAdresse($stage->getAdresse())) ){
                     $stage->setAdresse($adr);
                 }
@@ -89,6 +104,9 @@ class AdminStageController extends  AbstractController
     }
 
     /**
+     * Affiche la page de modification d'un stage
+     * Traite le formulaire une fois soumis
+     *
      * @Route("/admin/stages/{id}", name="admin.edit.stages", methods="GET|POST")
      * @param Stage $stage
      * @param Request $request
@@ -112,6 +130,8 @@ class AdminStageController extends  AbstractController
     }
 
     /**
+     * Supprime le stage de la base de données
+     *
      * @Route("/admin/stages/{id}", name="admin.delete.stages", methods="DELETE")
      * @param Stage $stage
      * @return Response

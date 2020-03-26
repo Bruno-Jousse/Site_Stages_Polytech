@@ -10,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     /**
+     * Affiche la page d'accueil
+     *
      * @Route("/", name="accueil")
      */
     public function index(): Response

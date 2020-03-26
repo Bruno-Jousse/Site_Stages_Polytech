@@ -43,16 +43,28 @@ class ImporterController extends AbstractController
 
     private $envLocal;
 
+    /**
+     * ImporterController constructor.
+     * @param StageRepository $repo
+     * @param AdresseRepository $adrRepo
+     * @param EntrepriseRepository $entRepo
+     * @param EntityManagerInterface $em
+     * @param ParameterBagInterface $params
+     */
     public function __construct(StageRepository $repo, AdresseRepository $adrRepo, EntrepriseRepository $entRepo, EntityManagerInterface $em, ParameterBagInterface $params)
     {
         $this->repo = $repo;
         $this->em = $em;
         $this->entRepo = $entRepo;
         $this->adrRepo = $adrRepo;
+        //Permet de récupérer les variables d'environnement locales
         $this->envLocal = $params->get("projectDir") . "/.env.local";
     }
 
     /**
+     * Affiche la page de d'importation de fichier csv ou xls
+     * Traite le formulaire une fois qu'il est soumis
+     *
      * @Route("/importer", name="importer")
      * @param Request $request
      * @return Response
@@ -62,7 +74,10 @@ class ImporterController extends AbstractController
         $csv = new FichierCSV();
         $form = $this->createForm(FichierCSVType::class, $csv);
         $form->handleRequest($request);
+
+        //Si un formulaire a été soumis
         if($form->isSubmitted() && $form->isValid()){
+            //On récupère le fichier et on importe les données
             $file = $form->get("file")->getData();
             if($file){
                 if($this->saveCSV($file))
@@ -77,14 +92,23 @@ class ImporterController extends AbstractController
         ]);
     }
 
+    /**
+     * Récupère les données dans le fichier et les enregistre dans la base de données
+     *
+     * @param $file
+     * @return bool
+     */
     private function saveCSV($file){
         $header = NULL;
+
+        //On ouvre le document
         try {
             $spreadsheet = PhpSpreadsheet\IOFactory::load($file);
         } catch (PhpSpreadsheet\Reader\Exception $e) {
             return false;
         }
 
+        //On récupère la clé API
         $dotenv = new Dotenv();
         $dotenv->load($this->envLocal);
         $apiKey = $_ENV["GEOCODE_API_KEY"];
@@ -99,10 +123,12 @@ class ImporterController extends AbstractController
         $adressesGps = [];
 
         foreach($rows as $key => $data) {
+            //S'il s'agit de la première ligne, on l'utilise pour obtenir le nom des clés du tableau car il s'agit du nom des colonnes
             if(!$header){
                 $header = $data;
             }
             else {
+                //On ajoute à un tableau les données géographiques pour pouvoir calculer les coordonnées GPS
                 $row = array_combine($header, $data);
                 $adressesGps[$key] = array(
                     "street" => $row["adresse"],
@@ -113,14 +139,17 @@ class ImporterController extends AbstractController
             }
         }
 
+        //Récupère les coordonnées GPS
         $gpss = $this->getGPSCoordinates($adressesGps, $apiKey);
 
         $header = NULL;
         foreach($rows as $key => $data){
+            //S'il s'agit de la première ligne, on l'utilise pour obtenir le nom des clés du tableau car il s'agit du nom des colonnes
             if(!$header){
                 $header = $data;
             }
             else{
+                //On récupère toutes les données de la première ligne
                 $row = array_combine($header, $data);
                 $nomEtud = $row["nom_user"];
                 $prenomEtud = $row["prenom_user"];
@@ -179,13 +208,16 @@ class ImporterController extends AbstractController
                 $adresse = new Adresse();
                 $stage = new Stage();
 
+                //On crée une entreprise avec les informations récupérées
                 $entreprise
                     ->setNom($nom_entreprise)
                     ->setEstPrivee(true);
+                //On vérifie que l'entreprise n'est pas déjà présente dans la base de données
                 if( ($ent = $this->entRepo->findEntreprise($entreprise)) ){
                     $entreprise = $ent;
                 }
 
+                //On crée une adresse avec les informations récupérées
                 $adresse
                     ->setAdresse($adresse_str)
                     ->setAdresseSuite($adresse_suite)
@@ -196,7 +228,7 @@ class ImporterController extends AbstractController
                     ->setLatitude($lat)
                     ->setLongitude($lon)
                     ->setVille($ville);
-
+                //On vérifie que l'adresse n'est pas déjà présente dans la base de données
                 if( ($adr = $this->adrRepo->findAdresse($adresse)) ){
                     $adresse = $adr;
                 }
@@ -211,6 +243,7 @@ class ImporterController extends AbstractController
                     $nbJours = ($date1->diff($date2))->format("%a");
                 }
 
+                //On crée un stage avec les informations récupérées
                 $stage
                     ->setEntreprise($entreprise)
                     ->setAdresse($adresse)
@@ -235,7 +268,7 @@ class ImporterController extends AbstractController
                     ->setIntitule($intitule)
                     ->setSujet($sujet)
                     ->setTelTuteurEnt($tel);
-
+                //On vérifie que le stage n'est pas déjà présent dans la base de données
                 if($this->repo->findStage($stage) == null) {
                     $this->em->persist($stage);
                     $this->em->flush();
@@ -246,6 +279,13 @@ class ImporterController extends AbstractController
         return true;
     }
 
+    /**
+     * Envoie les données géographiques des différentes adresses à l'API geocoding de MapQuestAPI et récupère les coordonnées GPS de ces adresses.
+     *
+     * @param $adresses
+     * @param $apiKey
+     * @return array
+     */
     private function getGPSCoordinates($adresses, $apiKey){
         $gpss = [];
         $url = "http://open.mapquestapi.com/geocoding/v1/batch?key=". $apiKey;
@@ -253,8 +293,9 @@ class ImporterController extends AbstractController
         $keys = [];
 
         foreach ($adresses as $key => $adresse){
-            //Ce tableau garde en mémoire les clés pour pouvoir par la suite associé la bonne coordonnées à la bonne adresse
+            //Ce tableau garde en mémoire les clés pour pouvoir par la suite associer les bonnes coordonnées à la bonne adresse
             $keys[$adresse["street"].$adresse["city"].$adresse["country"]] = $key;
+            //Par défaut on met les coordonnées à "Not defined"
             $gpss[$key]["lat"] = "Not defined";
             $gpss[$key]["lon"] = "Not defined";
         }
@@ -262,14 +303,13 @@ class ImporterController extends AbstractController
         $post = array_values($adresses);
         $postValues["locations"] = $post;
 
-        //var_dump($post);
+        //Encode en JSON le tableau de données
         $encodedJson = json_encode($postValues);
-        //var_dump($encodedJson);
 
-        //Initialize cURL.
+        //Initialise le cURL.
         $ch = curl_init();
 
-        //Set the URL that you want to GET by using the CURLOPT_URL option.
+        //Définie l'url, les options et données
         curl_setopt($ch, CURLOPT_URL, $url);
 
         curl_setopt($ch, CURLOPT_POST, true);
@@ -281,24 +321,21 @@ class ImporterController extends AbstractController
                 'Content-Length: ' . strlen($encodedJson))
         );
 
-        //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-        //Execute the request.
+        //Exécute la requête
         $json = curl_exec($ch);
 
-        //Close the cURL handle.
+        //Ferme le cURL
         curl_close($ch);
 
-        //var_dump($json);
-
+        //Décode le JSON reçu
         $decodedJson = json_decode($json);
 
         if($decodedJson->info->statuscode === 0) {
 
+            //Pour chaque adresse, on récupère les
             foreach($decodedJson->results as $result){
                 $gps = [];
                 $key = NULL;
@@ -306,7 +343,7 @@ class ImporterController extends AbstractController
                 $gps["lon"] = "Not defined";
 
                 try{
-                    //var_dump($result->providedLocation->street . $result->providedLocation->city . $result->providedLocation->country);
+                    //Permet de retrouver la clé de notre tableau possédant les adresses et d'associer les bonnes coordonnées GPS à la bonne adresse
                     $key =  $keys[$result->providedLocation->street . $result->providedLocation->city . $result->providedLocation->country];
 
                     $gps["lat"] = (string) $result->locations[0]->latLng->lat;
@@ -318,8 +355,6 @@ class ImporterController extends AbstractController
                 }
             }
         }
-
-        //var_dump($gpss);
 
         return $gpss;
     }

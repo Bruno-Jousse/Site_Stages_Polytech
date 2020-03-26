@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Stage
 {
+    //Enumération des départements
     public const DEPARTEMENT = [
         0 => "G.M",
         1 => "G.P",
@@ -22,6 +23,7 @@ class Stage
         4 => "G.E"
     ];
 
+    //Enumération des années
     public const ANNEE_FORM = [
         0 => "3A",
         1 => "4A",
@@ -157,26 +159,42 @@ class Stage
      */
     private $entreprise;
 
+    /**
+     * Stage constructor.
+     */
     public function __construct()
     {
         $this->themes = new ArrayCollection();
         $this->motsCles = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getSlug(): string{
         return (new Slugify())->slugify($this->intitule);
     }
 
+    /**
+     * @return string|null
+     */
     public function getSujet(): ?string
     {
         return $this->sujet;
     }
 
+    /**
+     * @param string $sujet
+     * @return $this
+     */
     public function setSujet(string $sujet): self
     {
         $this->sujet = $sujet;
@@ -184,11 +202,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getIntitule(): ?string
     {
         return $this->intitule;
     }
 
+    /**
+     * @param string $intitule
+     * @return $this
+     */
     public function setIntitule(string $intitule): self
     {
         $this->intitule = $intitule;
@@ -196,11 +221,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getAnnee(): ?int
     {
         return $this->annee;
     }
 
+    /**
+     * @param int $annee
+     * @return $this
+     */
     public function setAnnee(int $annee): self
     {
         $this->annee = $annee;
@@ -208,11 +240,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getDureeJours(): ?int
     {
         return $this->duree_jours;
     }
 
+    /**
+     * @param int $duree_jours
+     * @return $this
+     */
     public function setDureeJours(int $duree_jours): self
     {
         $this->duree_jours = $duree_jours;
@@ -220,11 +259,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getEstGratifie(): ?bool
     {
         return $this->est_gratifie;
     }
 
+    /**
+     * @param bool $est_gratifie
+     * @return $this
+     */
     public function setEstGratifie(bool $est_gratifie): self
     {
         $this->est_gratifie = $est_gratifie;
@@ -232,11 +278,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return float|null
+     */
     public function getGratification(): ?float
     {
         return $this->gratification;
     }
 
+    /**
+     * @param int|null $gratification
+     * @return $this
+     */
     public function setGratification(?int $gratification): self
     {
         $this->gratification = $gratification;
@@ -244,11 +297,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNomEtud(): ?string
     {
         return $this->nom_etud;
     }
 
+    /**
+     * @param string $nom_etud
+     * @return $this
+     */
     public function setNomEtud(string $nom_etud): self
     {
         $this->nom_etud = $nom_etud;
@@ -256,11 +316,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPrenomEtud(): ?string
     {
         return $this->prenom_etud;
     }
 
+    /**
+     * @param string $prenom_etud
+     * @return $this
+     */
     public function setPrenomEtud(string $prenom_etud): self
     {
         $this->prenom_etud = $prenom_etud;
@@ -268,11 +335,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getContratPro(): ?bool
     {
         return $this->contratPro;
     }
 
+    /**
+     * @param bool $contratPro
+     * @return $this
+     */
     public function setContratPro(bool $contratPro): self
     {
         $this->contratPro = $contratPro;
@@ -280,11 +354,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNomTuteurEnt(): ?string
     {
         return $this->nom_tuteur_ent;
     }
 
+    /**
+     * @param string $nom_tuteur_ent
+     * @return $this
+     */
     public function setNomTuteurEnt(string $nom_tuteur_ent): self
     {
         $this->nom_tuteur_ent = $nom_tuteur_ent;
@@ -292,11 +373,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPrenomTuteurEnt(): ?string
     {
         return $this->prenom_tuteur_ent;
     }
 
+    /**
+     * @param string $prenom_tuteur_ent
+     * @return $this
+     */
     public function setPrenomTuteurEnt(string $prenom_tuteur_ent): self
     {
         $this->prenom_tuteur_ent = $prenom_tuteur_ent;
@@ -304,11 +392,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTelTuteurEnt(): ?string
     {
         return $this->tel_tuteur_ent;
     }
 
+    /**
+     * @param string|null $tel_tuteur_ent
+     * @return $this
+     */
     public function setTelTuteurEnt(?string $tel_tuteur_ent): self
     {
         $this->tel_tuteur_ent = $tel_tuteur_ent;
@@ -316,11 +411,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getMailVisible(): ?bool
     {
         return $this->mail_visible;
     }
 
+    /**
+     * @param bool $mail_visible
+     * @return $this
+     */
     public function setMailVisible(bool $mail_visible): self
     {
         $this->mail_visible = $mail_visible;
@@ -328,11 +430,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getMailTuteurEnt(): ?string
     {
         return $this->mail_tuteur_ent;
     }
 
+    /**
+     * @param string $mail_tuteur_ent
+     * @return $this
+     */
     public function setMailTuteurEnt(string $mail_tuteur_ent): self
     {
         $this->mail_tuteur_ent = $mail_tuteur_ent;
@@ -340,11 +449,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCommentaire(): ?string
     {
         return $this->commentaire;
     }
 
+    /**
+     * @param string|null $commentaire
+     * @return $this
+     */
     public function setCommentaire(?string $commentaire): self
     {
         $this->commentaire = $commentaire;
@@ -352,11 +468,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getRecap(): ?string
     {
         return $this->recap;
     }
 
+    /**
+     * @param string|null $recap
+     * @return $this
+     */
     public function setRecap(?string $recap): self
     {
         $this->recap = $recap;
@@ -364,11 +487,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getEmbauche(): ?bool
     {
         return $this->embauche;
     }
 
+    /**
+     * @param bool $embauche
+     * @return $this
+     */
     public function setEmbauche(bool $embauche): self
     {
         $this->embauche = $embauche;
@@ -376,11 +506,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getPromo(): ?int
     {
         return $this->promo;
     }
 
+    /**
+     * @param int $promo
+     * @return $this
+     */
     public function setPromo(int $promo): self
     {
         $this->promo = $promo;
@@ -388,15 +525,28 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getAnneeForm(): ?int
     {
         return $this->annee_form;
     }
+
+    /**
+     * Retourne la valeur de l'année (au lieu de la clé)
+     *
+     * @return string
+     */
     public function getAnneeFormType(): string{
         return self::ANNEE_FORM[$this->annee_form];
     }
 
 
+    /**
+     * @param int $annee_form
+     * @return $this
+     */
     public function setAnneeForm(int $annee_form): self
     {
         $this->annee_form = $annee_form;
@@ -404,14 +554,27 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getDepartement(): ?int
     {
         return $this->departement;
     }
+
+    /**
+     * Retourne la valeur du département (au lieu de la clé)
+     *
+     * @return string
+     */
     public function getDepartementType(): string{
         return self::DEPARTEMENT[$this->departement];
     }
 
+    /**
+     * @param int $departement
+     * @return $this
+     */
     public function setDepartement(int $departement): self
     {
         $this->departement = $departement;
@@ -419,11 +582,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return Adresse|null
+     */
     public function getAdresse(): ?Adresse
     {
         return $this->adresse;
     }
 
+    /**
+     * @param Adresse|null $adresse
+     * @return $this
+     */
     public function setAdresse(?Adresse $adresse): self
     {
         $this->adresse = $adresse;
@@ -439,6 +609,10 @@ class Stage
         return $this->themes;
     }
 
+    /**
+     * @param Theme $theme
+     * @return $this
+     */
     public function addTheme(Theme $theme): self
     {
         if (!$this->themes->contains($theme)) {
@@ -448,6 +622,10 @@ class Stage
         return $this;
     }
 
+    /**
+     * @param Theme $theme
+     * @return $this
+     */
     public function removeTheme(Theme $theme): self
     {
         if ($this->themes->contains($theme)) {
@@ -465,6 +643,10 @@ class Stage
         return $this->motsCles;
     }
 
+    /**
+     * @param MotCle $motsCle
+     * @return $this
+     */
     public function addMotsCle(MotCle $motsCle): self
     {
         if (!$this->motsCles->contains($motsCle)) {
@@ -474,6 +656,10 @@ class Stage
         return $this;
     }
 
+    /**
+     * @param MotCle $motsCle
+     * @return $this
+     */
     public function removeMotsCle(MotCle $motsCle): self
     {
         if ($this->motsCles->contains($motsCle)) {
@@ -483,11 +669,18 @@ class Stage
         return $this;
     }
 
+    /**
+     * @return Entreprise|null
+     */
     public function getEntreprise(): ?Entreprise
     {
         return $this->entreprise;
     }
 
+    /**
+     * @param Entreprise|null $entreprise
+     * @return $this
+     */
     public function setEntreprise(?Entreprise $entreprise): self
     {
         $this->entreprise = $entreprise;
@@ -495,6 +688,12 @@ class Stage
         return $this;
     }
 
+    /**
+     * Retourne la clé de la valeur correspondant à l'année indiquée
+     *
+     * @param $string
+     * @return false|int|string
+     */
     public static function stringToAnneeForm($string)
     {
         $res = 0;
@@ -514,6 +713,12 @@ class Stage
         return $res;
     }
 
+    /**
+     * Retourne la clé de la valeur correspondant au département indiqué
+     *
+     * @param $string
+     * @return false|int|string
+     */
     public static function stringToDepartement($string){
         return array_search($string, self::DEPARTEMENT);
     }

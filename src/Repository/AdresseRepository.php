@@ -14,11 +14,21 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class AdresseRepository extends ServiceEntityRepository
 {
+    /**
+     * AdresseRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Adresse::class);
     }
 
+    /**
+     * Retourne une adresse correspondant à l'adresse fournie en paramètre (permet de savoir si une adresse existe déjà)
+     *
+     * @param Adresse $adresse
+     * @return Adresse|null
+     */
     public function findAdresse(Adresse $adresse){
         return $this->findOneBy(array(
             "adresse" => $adresse->getAdresse(),
@@ -31,33 +41,4 @@ class AdresseRepository extends ServiceEntityRepository
             //"longitude" => $adresse->getLongitude()
         ));
     }
-
-    // /**
-    //  * @return Adresse[] Returns an array of Adresse objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Adresse
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

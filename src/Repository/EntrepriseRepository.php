@@ -14,44 +14,25 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class EntrepriseRepository extends ServiceEntityRepository
 {
+    /**
+     * EntrepriseRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Entreprise::class);
     }
 
+    /**
+     * Retourne une entreprise correspondant à l'entreprise fournie en paramètre (permet de savoir si une entreprise existe déjà)
+     *
+     * @param Entreprise $entreprise
+     * @return Entreprise|null
+     */
     public function findEntreprise(Entreprise $entreprise){
         return $this->findOneBy(array(
             "nom" => $entreprise->getNom(),
             "est_privee" => $entreprise->getEstPrivee()
         ));
     }
-
-    /*// /**
-    //  * @return Entreprise[] Returns an array of Entreprise objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Entreprise
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

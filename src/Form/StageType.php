@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Adresse;
+use App\Entity\Entreprise;
 use App\Entity\MotCle;
 use App\Entity\Stage;
 use App\Entity\Theme;
@@ -43,7 +45,20 @@ class StageType extends AbstractType
                 "multiple" => true,
                 "required" => false
             ])
-            ->add('adresse', AdresseType::class)
+            ->add('adresse', EntityType::class, [
+                "class" => Adresse::class,
+                "choice_label" => function(Adresse $adr){
+                    return $adr->getId() . " - " . $adr->getAdresse() . " " . $adr->getVille() . " " . $adr->getPays();
+                },
+                "multiple" => false,
+                "required" => true
+            ])
+            ->add('entreprise', EntityType::class, [
+                "class" => Entreprise::class,
+                "choice_label" => "nom",
+                "multiple" => false,
+                "required" => true
+            ])
             ->add('motsCles', EntityType::class, [
                 "class" => MotCle::class,
                 "choice_label" => "motCle",

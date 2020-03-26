@@ -18,23 +18,39 @@ use Doctrine\ORM\Query\ResultSetMapping;
  */
 class StageRepository extends ServiceEntityRepository
 {
+
+    /**
+     * StageRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Stage::class);
     }
 
+    /**
+     * Permet de récupérer les stages correspondants aux critères de recherche fournis en paramètre
+     *
+     * @param StageSearch $search
+     * @param ThemeRepository $themeRepo
+     * @return array
+     */
     public function filtrerStages(StageSearch $search, ThemeRepository $themeRepo) : array
     {
         $query = $this->createQueryBuilder("s");
 
+        //Si des mots-clés sont donnés, on cherche les stages contenant au moins un des mots-clés
         if (count($search->getMotsCles()) > 0){
             $query = $query->innerJoin("s.motsCles", "mc");
             $query->andWhere("mc.id in (:motsCles_id)")
                 ->setParameter("motsCles_id", $search->getMotsCles());
         }
+
+        //Si des thèmes sont donnés, on cherche les stages contenant au moins un des thèmes ou un de ses fils
         if (count($search->getThemes()) > 0){
             $themes = array();
 
+            //Récupère les fils des thèmes donnés
             foreach ($search->getThemes() as $theme) {
                 $children = $themeRepo->getAllChildren($theme);
                 foreach ($children as $child){
@@ -47,6 +63,7 @@ class StageRepository extends ServiceEntityRepository
                 ->setParameter("themes_id", $themes);
         }
 
+        //On récupère les stages correspondants aux critères fournis
         if ($search->getAnnee()){
             $query->andWhere("s.annee = :annee")
                 ->setParameter("annee", $search->getAnnee());
@@ -93,6 +110,7 @@ class StageRepository extends ServiceEntityRepository
 
         $query =  $query->innerJoin("s.adresse", "a");
         $orX = $query->expr()->orX();
+        //Le stage doit correspondre au moins à la ville, au pays OU au continent
         if( $search->getVille() ){
             $orX->add($query->expr()->like("a.ville", $query->expr()->literal("%".$search->getVille()."%")));
         }
@@ -108,6 +126,12 @@ class StageRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    /**
+     * Retourne un stage correspondant au stage fourni en paramètre (permet de savoir si un stage existe déjà)
+     *
+     * @param Stage $stage
+     * @return Stage|null
+     */
     public function findStage(Stage $stage){
         return $this->findOneBy(array(
             "annee" => $stage->getAnnee(),
@@ -120,33 +144,4 @@ class StageRepository extends ServiceEntityRepository
             "sujet" => $stage->getSujet()
         ));
     }
-
-    // /**
-    //  * @return Stage[] Returns an array of Stage objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Stage
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

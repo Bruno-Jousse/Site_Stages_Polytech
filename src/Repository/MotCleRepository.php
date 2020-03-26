@@ -14,43 +14,24 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class MotCleRepository extends ServiceEntityRepository
 {
+    /**
+     * MotCleRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MotCle::class);
     }
 
+    /**
+     * Retourne un mot-clé correspondant au mot-clé fourni en paramètre (permet de savoir si un mot-clé existe déjà)
+     *
+     * @param MotCle $motCle
+     * @return MotCle|null
+     */
     public function findMotCle(MotCle $motCle){
         return $this->findOneBy(array(
             "mot_cle" => $motCle->getMotCle()
         ));
     }
-
-    // /**
-    //  * @return MotCle[] Returns an array of MotCle objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?MotCle
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

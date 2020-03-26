@@ -84,6 +84,9 @@ class StageSearch
      */
     private $themes;
 
+    /**
+     * StageSearch constructor.
+     */
     public function __construct()
     {
         $this->motsCles = array();

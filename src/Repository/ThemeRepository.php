@@ -25,6 +25,8 @@ class ThemeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Retourne un thème correspondant au thème fourni en paramètre (permet de savoir si un thème existe déjà)
+     *
      * @param Theme $theme
      * @return Theme|null
      */
@@ -35,6 +37,8 @@ class ThemeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Récupère tous les thèmes fils de celui donné en paramètre
+     *
      * @param Theme $theme
      * @return mixed
      */

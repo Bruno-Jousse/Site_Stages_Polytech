@@ -40,22 +40,35 @@ class Theme
      */
     private $stages;
 
+    /**
+     * Theme constructor.
+     */
     public function __construct()
     {
         $this->themes = new ArrayCollection();
         $this->stages = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTheme(): ?string
     {
         return $this->theme;
     }
 
+    /**
+     * @param string $theme
+     * @return $this
+     */
     public function setTheme(string $theme): self
     {
         $this->theme = $theme;
@@ -63,11 +76,18 @@ class Theme
         return $this;
     }
 
+    /**
+     * @return $this|null
+     */
     public function getPere(): ?self
     {
         return $this->pere;
     }
 
+    /**
+     * @param Theme|null $pere
+     * @return $this
+     */
     public function setPere(?self $pere): self
     {
         $this->pere = $pere;
@@ -83,6 +103,10 @@ class Theme
         return $this->themes;
     }
 
+    /**
+     * @param Theme $theme
+     * @return $this
+     */
     public function addTheme(self $theme): self
     {
         if (!$this->themes->contains($theme)) {
@@ -93,6 +117,10 @@ class Theme
         return $this;
     }
 
+    /**
+     * @param Theme $theme
+     * @return $this
+     */
     public function removeTheme(self $theme): self
     {
         if ($this->themes->contains($theme)) {
@@ -114,6 +142,10 @@ class Theme
         return $this->stages;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function addStage(Stage $stage): self
     {
         if (!$this->stages->contains($stage)) {
@@ -124,6 +156,10 @@ class Theme
         return $this;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function removeStage(Stage $stage): self
     {
         if ($this->stages->contains($stage)) {

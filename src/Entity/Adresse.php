@@ -71,21 +71,34 @@ class Adresse
      */
     private $stages;
 
+    /**
+     * Adresse constructor.
+     */
     public function __construct()
     {
         $this->stages = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAdresse(): ?string
     {
         return $this->adresse;
     }
 
+    /**
+     * @param string $adresse
+     * @return $this
+     */
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
@@ -93,11 +106,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getAdresseSuite(): ?string
     {
         return $this->adresse_suite;
     }
 
+    /**
+     * @param string|null $adresse_suite
+     * @return $this
+     */
     public function setAdresseSuite(?string $adresse_suite): self
     {
         $this->adresse_suite = $adresse_suite;
@@ -105,11 +125,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCodePostal(): ?string
     {
         return $this->code_postal;
     }
 
+    /**
+     * @param string|null $code_postal
+     * @return $this
+     */
     public function setCodePostal(?string $code_postal): self
     {
         $this->code_postal = $code_postal;
@@ -117,11 +144,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getVille(): ?string
     {
         return $this->ville;
     }
 
+    /**
+     * @param string $ville
+     * @return $this
+     */
     public function setVille(string $ville): self
     {
         $this->ville = $ville;
@@ -129,11 +163,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLatitude(): ?string
     {
         return $this->latitude;
     }
 
+    /**
+     * @param string $latitude
+     * @return $this
+     */
     public function setLatitude(string $latitude): self
     {
         $this->latitude = $latitude;
@@ -141,11 +182,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLongitude(): ?string
     {
         return $this->longitude;
     }
 
+    /**
+     * @param string $longitude
+     * @return $this
+     */
     public function setLongitude(string $longitude): self
     {
         $this->longitude = $longitude;
@@ -153,11 +201,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getContinent(): ?string
     {
         return $this->continent;
     }
 
+    /**
+     * @param string $continent
+     * @return $this
+     */
     public function setContinent(string $continent): self
     {
         $this->continent = $continent;
@@ -165,11 +220,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPays(): ?string
     {
         return $this->pays;
     }
 
+    /**
+     * @param string $pays
+     * @return $this
+     */
     public function setPays(string $pays): self
     {
         $this->pays = $pays;
@@ -177,11 +239,18 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @return Entreprise|null
+     */
     public function getEntreprise(): ?Entreprise
     {
         return $this->entreprise;
     }
 
+    /**
+     * @param Entreprise|null $entreprise
+     * @return $this
+     */
     public function setEntreprise(?Entreprise $entreprise): self
     {
         $this->entreprise = $entreprise;
@@ -197,6 +266,10 @@ class Adresse
         return $this->stages;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function addStage(Stage $stage): self
     {
         if (!$this->stages->contains($stage)) {
@@ -207,6 +280,10 @@ class Adresse
         return $this;
     }
 
+    /**
+     * @param Stage $stage
+     * @return $this
+     */
     public function removeStage(Stage $stage): self
     {
         if ($this->stages->contains($stage)) {
