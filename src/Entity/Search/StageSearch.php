@@ -6,7 +6,7 @@ namespace App\Entity\Search;
 class StageSearch
 {
     /**
-     * @var int|null
+     * @var string|null
      */
     private $annee;
 
@@ -94,17 +94,17 @@ class StageSearch
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getAnnee(): ?int
+    public function getAnnee(): ?string
     {
         return $this->annee;
     }
 
     /**
-     * @param int|null $annee
+     * @param string|null $annee
      */
-    public function setAnnee(?int $annee): void
+    public function setAnnee(?string $annee): void
     {
         $this->annee = $annee;
     }

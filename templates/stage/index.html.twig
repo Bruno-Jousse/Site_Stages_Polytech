@@ -20,6 +20,7 @@
             <div class="filter-container">
                 <div class="form-input-container mt-4">
 
+                    <h5 class="">Utiliser le séparateur ";" entre plusieurs éléments (ex: Paris; Lyon)</h5>
                     {{ form_start(form) }}
                     <div class="row ml-0" >
                         {{ form_row(form.ville) }}
@@ -29,13 +30,13 @@
                         {{ form_row(form.continent) }}
                         {{ form_row(form.annee) }}
                         {{ form_row(form.entreprise) }}
-                        {{ form_row(form.duree_mois_min) }}
-                        {{ form_row(form.duree_mois_max) }}
 
                     </div>
                     <div class="row ml-0">
                         {{ form_row(form.themes ) }}
                         {{ form_row(form.motsCles) }}
+                        {{ form_row(form.duree_mois_min) }}
+                        {{ form_row(form.duree_mois_max) }}
                         <div class="checkboxes row">
                             {{ form_row(form.est_gratifie) }}
                             {{ form_row(form.embauche) }}

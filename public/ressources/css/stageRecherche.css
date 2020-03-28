@@ -3,6 +3,10 @@ html, body
     height: 100%;
 }
 
+.btn{
+    font-size: 20px;
+}
+
 .search-container
 {
     margin-right: 0 !important;

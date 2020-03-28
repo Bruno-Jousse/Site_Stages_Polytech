@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Stage|null find($id, $lockMode = null, $lockVersion = null)
@@ -65,13 +66,27 @@ class StageRepository extends ServiceEntityRepository
 
         //On récupère les stages correspondants aux critères fournis
         if ($search->getAnnee()){
-            $query->andWhere("s.annee = :annee")
-                ->setParameter("annee", $search->getAnnee());
+            $this->multipleElementsQuery($query, $search->getAnnee(), "s.annee");
+
         }
         if ($search->getEmbauche()){
             $query->andWhere("s.embauche = :embauche")
                 ->setParameter("embauche", $search->getEmbauche());
         }
+        if ($search->getContratPro()){
+            $query->andWhere("s.contratPro = :contratPro")
+                ->setParameter("contratPro", $search->getContratPro());
+        }
+        if ($search->getDureeJoursMax()){
+            $query->andWhere("s.duree_jours <= :dureeJoursMax")
+                ->setParameter("dureeJoursMax", $search->getDureeJoursMax());
+        }
+        if ($search->getDureeJoursMin()){
+            $query->andWhere("s.duree_jours >= :dureeJoursMin")
+                ->setParameter("dureeJoursMin", $search->getDureeJoursMin());
+        }
+
+        //TODO: Filtrer en fonction de l'année et du département de l'utilisateur
         if ($search->getAnneeForm()){
             $annee = array_search($search->getAnneeForm(), Stage::ANNEE_FORM);
             $query->andWhere("s.annee_form = :anneeForm")
@@ -86,22 +101,11 @@ class StageRepository extends ServiceEntityRepository
             $query->andWhere("s.promo = :promo")
                 ->setParameter("promo", $search->getPromo());
         }
-        if ($search->getContratPro()){
-            $query->andWhere("s.contratPro = :contratPro")
-                ->setParameter("contratPro", $search->getContratPro());
-        }
-        if ($search->getDureeJoursMax()){
-            $query->andWhere("s.duree_jours <= :dureeJoursMax")
-                ->setParameter("dureeJoursMax", $search->getDureeJoursMax());
-        }
-        if ($search->getDureeJoursMin()){
-            $query->andWhere("s.duree_jours >= :dureeJoursMin")
-                ->setParameter("dureeJoursMin", $search->getDureeJoursMin());
-        }
+
         if ($search->getEntreprise()){
             $query =  $query->innerJoin("s.entreprise", "e");
-            $query->andWhere("e.nom = :nomEnt")
-                ->setParameter("nomEnt", $search->getEntreprise());
+
+            $this->multipleElementsQuery($query, $search->getEntreprise(), "e.nom");
         }
         if ($search->getEstGratifie()){
             $query->andWhere("s.est_gratifie = :gratifie")
@@ -112,18 +116,64 @@ class StageRepository extends ServiceEntityRepository
         $orX = $query->expr()->orX();
         //Le stage doit correspondre au moins à la ville, au pays OU au continent
         if( $search->getVille() ){
-            $orX->add($query->expr()->like("a.ville", $query->expr()->literal("%".$search->getVille()."%")));
+            $expression = $this->multipleElementsExpression($query, $search->getVille(), "a.ville");
+            if($expression->count() > 0){
+                $orX->add($expression);
+            }
         }
         if( $search->getPays() ){
-            $orX->add($query->expr()->like("a.pays", $query->expr()->literal("%".$search->getPays()."%")));
+            $expression = $this->multipleElementsExpression($query, $search->getPays(), "a.pays");
+            if($expression->count() > 0){
+                $orX->add($expression);
+            }
         }
         if( $search->getContinent() ){
-            $orX->add($query->expr()->like("a.continent",  $query->expr()->literal("%".$search->getContinent()."%")));
+            $expression = $this->multipleElementsExpression($query, $search->getContinent(), "a.continent");
+            if($expression->count() > 0){
+                $orX->add($expression);
+            }
         }
         if($orX->count() >0) {
             $query->andWhere($orX);
         }
         return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param QueryBuilder $query
+     * @param string $stringElements
+     * @param string $colonne
+     * @return QueryBuilder
+     */
+    private function multipleElementsQuery(QueryBuilder $query, string $stringElements, string $colonne){
+
+        $orX = $this->multipleElementsExpression($query, $stringElements, $colonne);
+
+        if($orX->count() >0) {
+            $query->andWhere($orX);
+        }
+
+        return $query;
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param string $stringElements
+     * @param string $colonne
+     * @return Query\Expr\Orx
+     */
+    private function multipleElementsExpression(QueryBuilder $query, string $stringElements, string $colonne){
+        $elements = explode(";", $stringElements);
+
+        $orX = $query->expr()->orX();
+
+        foreach ($elements as $element){
+            $element = trim($element);
+            $orX->add($query->expr()->like($colonne, $query->expr()->literal("%".$element."%")));
+        }
+
+        return $orX;
     }
 
     /**
