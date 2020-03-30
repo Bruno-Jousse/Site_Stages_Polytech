@@ -141,6 +141,9 @@ class StageRepository extends ServiceEntityRepository
 
 
     /**
+     * Prend en paramètre une query, une string contenant une liste d'éléments séparés par un ";" et le nom d'une colonne en base de données
+     * Ajoute à la query la sélection d'un stage en s'assurant qu'il possède au moins un des éléments de la liste.
+     *
      * @param QueryBuilder $query
      * @param string $stringElements
      * @param string $colonne
@@ -158,6 +161,9 @@ class StageRepository extends ServiceEntityRepository
     }
 
     /**
+     * Prend en paramètre une query, une string contenant une liste d'éléments séparés par un ";" et le nom d'une colonne en base de données
+     * Retourne une query permettant de chercher les stages correspondant à au moins un des éléments de la liste.
+     *
      * @param QueryBuilder $query
      * @param string $stringElements
      * @param string $colonne
