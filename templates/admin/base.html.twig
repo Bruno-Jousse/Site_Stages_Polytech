@@ -51,7 +51,7 @@
             <a class="stg-btn stg-create btn btn-primary btn-sm"
                href="{{ path('admin.create.stages') }}"
                data-toggle="tooltip" data-placement="top" title="Créer un nouveau stage">
-                <i class="fa fa-fw fa-plus"></i>
+                <i class="fas fa-fw fa-plus"></i>
             </a>
 
             <table class="table table-striped">
@@ -79,12 +79,12 @@
                         <td>{{ stage.promo }}</td>
                         <td class="actions-buttons">
                             <a href="{{ path('admin.edit.stages', {id: stage.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier le stage">
-                                <i class="fa fa-pencil"></i>
+                                <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <form method="post" action="{{ path('admin.delete.stages', {id: stage.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer le stage">
+                            <form method="post" action="{{ path('admin.delete.stages', {id: stage.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer le stage" onsubmit="return confirm('Attention! Vous êtes sur le points de supprimer un stage. Étes vous sûr de vouloir supprimer \'{{ stage.intitule }}\' ?')">
                                 <input type="hidden" name="_method" value="DELETE"/>
                                 <button type="submit">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </form>
                         </td>
@@ -96,22 +96,177 @@
 
         {#Tab Adresses#}
         <div class="tab-pane" id="adr-content" role="tabpanel" aria-labelledby="adr-tab">
-            <h4>Pas encore implémenté</h4>
+            {#Bouton d'ajout de nouvelles adresses#}
+            <a class="stg-btn stg-create btn btn-primary btn-sm"
+               href="{{ path('admin.create.adresse') }}"
+               data-toggle="tooltip" data-placement="top" title="Créer une nouvelle adresse">
+                <i class="fas fa-fw fa-plus"></i>
+            </a>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Adresse</th>
+                    <th>Code postal</th>
+                    <th>Ville</th>
+                    <th>Pays</th>
+                    <th>Continent</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%  for adresse in adresses %}
+                    <tr>
+                        <td>{{ adresse.adresse }}, {{ adresse.adresseSuite }}</td>
+                        <td>{{ adresse.codePostal }}</td>
+                        <td>{{ adresse.ville }}</td>
+                        <td>{{ adresse.pays }}</td>
+                        <td>{{ adresse.continent }}</td>
+                        <td class="actions-buttons">
+                            <a href="{{ path('admin.edit.adresse', {id: adresse.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier l'adresse">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <form method="post" action="{{ path('admin.delete.adresse', {id: adresse.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer l'adresse" onsubmit="return confirm('Attention! Vous êtes sur le points de supprimer une adresse. Étes vous sûr de vouloir supprimer \'{{ adresse.adresse }} {{ adresse.adresseSuite }}\' ?')">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button type="submit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
         </div>
 
         {#Tab Entreprises#}
         <div class="tab-pane" id="etr-content" role="tabpanel" aria-labelledby="etr-tab">
-            <h4>Pas encore implémenté</h4>
+            {#Bouton d'ajout de nouvelles entreprises#}
+            <a class="stg-btn stg-create btn btn-primary btn-sm"
+               href="{{ path('admin.create.entreprise') }}"
+               data-toggle="tooltip" data-placement="top" title="Créer une nouvelle entreprise">
+                <i class="fas fa-fw fa-plus"></i>
+            </a>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Est privée?</th>
+                    <th>Nombre de stage associé</th>
+                    <th>Nombre d'adresse associé</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {%  for entreprise in entreprises %}
+                    <tr>
+                        <td>{{ entreprise.nom }}</td>
+                        <td>{% if entreprise.estPrivee %} <i class="fas fa-check-circle"></i> {% else %} <i class="fas fa-times-circle"></i> {% endif %}</td>
+                        <td>{{ entreprise.stages|length }}</td>
+                        <td>{{ entreprise.adresses|length }}</td>{% dump entreprise.adresses %}
+                        <td class="actions-buttons">
+                            <a href="{{ path('admin.edit.entreprise', {id: entreprise.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier l'entreprise">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <form method="post" action="{{ path('admin.delete.entreprise', {id: entreprise.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer l'entreprise" onsubmit="return confirm('Attention! Vous êtes sur le points de supprimer une entreprise. Étes vous sûr de vouloir supprimer \'{{ entreprise.nom }}\' ?')">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button type="submit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
+{#        TODO, verifier la liaison entre l'entreprise et l'adresse et la revoir si besoin #}
 
         {#Tab Mots-clé#}
         <div class="tab-pane" id="mcl-content" role="tabpanel" aria-labelledby="mcl-tab">
-            <h4>Pas encore implémenté</h4>
+            {#Bouton d'ajout de nouveaux mots clés#}
+            <a class="stg-btn stg-create btn btn-primary btn-sm"
+               href="{{ path('admin.create.motCle') }}"
+               data-toggle="tooltip" data-placement="top" title="Créer une nouveau mot clé">
+                <i class="fas fa-fw fa-plus"></i>
+            </a>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Mot Clé</th>
+                    <th>Nombre de stages associés</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {%  for motCle in motsCles %}
+                    <tr>
+                        <td>{{ motCle.motCle }}</td>
+                        <td>{{ motCle.stages|length }}</td>
+                        <td class="actions-buttons">
+                            <a href="{{ path('admin.edit.motCle', {id: motCle.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier le mot clé">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <form method="post" action="{{ path('admin.delete.motCle', {id: motCle.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer le mot clé" onsubmit="return confirm('Attention! Vous êtes sur le points de supprimer un mot clé. Étes vous sûr de vouloir supprimer \'{{ motCle.motCle }}\' ?')">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button type="submit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
 
         {#Tab Thèmes#}
         <div class="tab-pane" id="thm-content" role="tabpanel" aria-labelledby="thm-tab">
-            <h4>Pas encore implémenté</h4>
+            {#Bouton d'ajout de nouveaux thèmes#}
+            <a class="stg-btn stg-create btn btn-primary btn-sm"
+               href="{{ path('admin.create.theme') }}"
+               data-toggle="tooltip" data-placement="top" title="Créer une nouveau thème">
+                <i class="fas fa-fw fa-plus"></i>
+            </a>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Thème</th>
+                    <th>Thème parent</th>
+                    <th>Nombre de sous thèmes</th>
+                    <th>Nombre de stages associés au thème</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {%  for theme in themes %}
+                    <tr>
+                        <td>{{ theme.theme }}</td>
+                        <td>Parent du theme</td>
+                        <td>{{ theme.themes|length }}</td>
+                        <td>{{ theme.stages|length }}</td>
+                        <td class="actions-buttons">
+                            <a href="{{ path('admin.edit.theme', {id: theme.id}) }}" data-toggle="tooltip" data-placement="top" title="Modifier le thème">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <form method="post" action="{{ path('admin.delete.theme', {id: theme.id}) }}" style="display: inline-block" data-toggle="tooltip" data-placement="top" title="Supprimer le thème" onsubmit="return confirm('Attention! Vous êtes sur le points de supprimer un thème. Étes vous sûr de vouloir supprimer \'{{ theme.theme }}\' ?')">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button type="submit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
 
     </div>

@@ -26,3 +26,28 @@
     padding-bottom: 15px;
     border-bottom: solid 1px #6f6f6f;
 }
+
+.select2_form_item
+{
+    width: 200px;
+}
+
+.select2-selection
+{
+    border: solid 1px #ced4da !important;
+}
+
+.stage_selectpicker
+{
+    width: 100%;
+}
+
+.single > span > .selection > .select2-selection
+{
+    height: 37px;
+}
+
+.advice
+{
+    color: #C82829;
+}

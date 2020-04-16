@@ -26,14 +26,14 @@ class ThemeType extends AbstractType
                 "multiple" => false,
                 "required" => false
             ])
-            ->add('stages', EntityType::class, [
-                "class" => Stage::class,
-                "choice_label" => function(Stage $s){
-                    return $s->getId() . " - " . $s->getIntitule();
-                },
-                "multiple" => true,
-                "required" => false
-            ])
+//            ->add('stages', EntityType::class, [
+//                "class" => Stage::class,
+//                "choice_label" => function(Stage $s){
+//                    return $s->getId() . " - " . $s->getIntitule();
+//                },
+//                "multiple" => true,
+//                "required" => false
+//            ])
         ;
     }
 

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('/ressources/css/stageForm.css') }}" rel="stylesheet" />
+
+{% endblock %}
+
+{% block body %}
+    <div class="page">
+        <div class="container-form col-10">
+            <h3 class="form-title mt-4">Modifier le thème "{{ theme.theme }}"</h3>
+            {{ include ("admin/form/form.theme.html.twig" ,{'form': form}) }}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}

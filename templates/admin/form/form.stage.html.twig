@@ -87,14 +87,31 @@
 <h4>Informations annexes</h4>
 <div class="row">
     <div class="col-6">
-        {{ form_widget(form.adresse) }}
+        <div class="stage_selectpicker single">
+            Sélectionner l'adresse de réalisation du stage
+            {{ form_widget(form.adresse) }}
+        </div>
+        <div class="stage_selectpicker single pt-4">
+            Sélectionner l'entreprise associée au stage
+            {{ form_widget(form.entreprise) }}
+        </div>
+
+
+
     </div>
     <div class="col-6">
-        {{ form_widget(form.motsCles) }}
-        {{ form_widget(form.themes) }}
+        <div class="stage_selectpicker">
+            Sélectionner les mots clef associés au stage
+            {{ form_widget(form.motsCles) }}
+        </div>
+        <div class="stage_selectpicker pt-4">
+            Sélectionner les thèmes associés au stage
+            {{ form_widget(form.themes) }}
+        </div>
+
     </div>
 </div>
 
 {{ form_rest(form) }}
-<button class="btn btn-primary submitter">Enregistrer</button>
+<button class="btn btn-primary submitter mt-4">Enregistrer</button>
 {{ form_end(form) }}

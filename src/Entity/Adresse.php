@@ -31,7 +31,7 @@ class Adresse
     private $adresse_suite = "";
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $code_postal = "";
 
@@ -41,12 +41,12 @@ class Adresse
     private $ville;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $latitude;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $longitude;
 
@@ -62,12 +62,13 @@ class Adresse
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprise", inversedBy="adresses", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $entreprise;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Stage", mappedBy="adresse", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $stages;
 

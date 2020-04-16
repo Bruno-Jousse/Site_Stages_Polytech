@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
           crossorigin=""/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
@@ -20,9 +21,9 @@
             <div class="filter-container">
                 <div class="form-input-container mt-4">
 
-                    <h5 class="">Utiliser le séparateur ";" entre plusieurs éléments (ex: Paris; Lyon)</h5>
+                    <div class="form_search_advice">*Utiliser le séparateur ";" entre plusieurs éléments (ex: Paris; Lyon)</div>
                     {{ form_start(form) }}
-                    <div class="row ml-0" >
+                    <div class="row ml-0 mr-0" >
                         {{ form_row(form.ville) }}
                         <p class="ou">ou</p>
                         {{ form_row(form.pays) }}
@@ -32,9 +33,13 @@
                         {{ form_row(form.entreprise) }}
 
                     </div>
-                    <div class="row ml-0">
-                        {{ form_row(form.themes ) }}
-                        {{ form_row(form.motsCles) }}
+                    <div class="row ml-0 mr-0">
+                        <div class="select2_form_item">
+                            {{ form_row(form.themes ) }}
+                        </div>
+                        <div class="select2_form_item">
+                            {{ form_row(form.motsCles) }}
+                        </div>
                         {{ form_row(form.duree_mois_min) }}
                         {{ form_row(form.duree_mois_max) }}
                         <div class="checkboxes row">
@@ -120,8 +125,14 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script src="{{ asset('/ressources/js/vendor.js') }}"></script>
     <script src="{{ asset('/ressources/js/app.map.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+    <script>
+        $('select').select2({
+            language: "fr"
+        });
+    </script>
 
 {% endblock %}

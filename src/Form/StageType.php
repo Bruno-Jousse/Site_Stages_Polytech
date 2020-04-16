@@ -42,6 +42,10 @@ class StageType extends AbstractType
             ->add('themes', EntityType::class, [
                 "class" => Theme::class,
                 "choice_label" => "theme",
+                'attr' => [
+                    'title' => 'Veuillez faire un choix',
+                    'class' => 'selectpicker w-100',
+                ],
                 "multiple" => true,
                 "required" => false
             ])
@@ -50,18 +54,30 @@ class StageType extends AbstractType
                 "choice_label" => function(Adresse $adr){
                     return $adr->getId() . " - " . $adr->getAdresse() . " " . $adr->getVille() . " " . $adr->getPays();
                 },
+                'attr' => [
+                    'title' => 'Veuillez faire un choix',
+                    'class' => 'selectpicker w-100',
+                ],
                 "multiple" => false,
                 "required" => true
             ])
             ->add('entreprise', EntityType::class, [
                 "class" => Entreprise::class,
                 "choice_label" => "nom",
+                'attr' => [
+                    'title' => 'Veuillez faire un choix',
+                    'class' => 'selectpicker w-100',
+                ],
                 "multiple" => false,
                 "required" => true
             ])
             ->add('motsCles', EntityType::class, [
                 "class" => MotCle::class,
                 "choice_label" => "motCle",
+                'attr' => [
+                    'title' => 'Veuillez faire un choix',
+                    'class' => 'selectpicker w-100',
+                ],
                 "multiple" => true,
                 "required" => false
             ])

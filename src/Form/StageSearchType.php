@@ -49,12 +49,22 @@ class StageSearchType extends AbstractType
             ->add('motsCles', EntityType::class, [
                 "class" => MotCle::class,
                 "choice_label" => "motCle",
+                'attr' => [
+                    'title' => 'Veuillez faire un choix',
+                    'class' => 'selectpicker w-100',
+                    'style' => 'width:200px;'
+                ],
                 "multiple" => true,
                 "required" => false
             ])
             ->add('themes', EntityType::class, [
                 "class" => Theme::class,
                 "choice_label" => "theme",
+                'attr' => [
+                    'title' => 'Veuillez faire un choix',
+                    'class' => 'selectpicker w-100',
+                    'style' => 'width:200px;'
+                ],
                 "multiple" => true,
                 "required" => false
             ])

@@ -24,7 +24,7 @@ class EntrepriseType extends AbstractType
             ->add('adresses', EntityType::class, [
                 "class" => Adresse::class,
                 "choice_label" => function(Adresse $adr){
-                    return $adr->getId() . " - " . $adr->getAdresse() . " " . $adr->getVille() . " " . $adr->getPays();
+                    return $adr->getAdresse() . " " . $adr->getVille() . " " . $adr->getPays();
                 },
                 "multiple" => true,
                 "required" => true

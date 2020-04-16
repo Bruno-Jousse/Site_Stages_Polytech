@@ -25,24 +25,8 @@ class AdresseType extends AbstractType
             ->add('adresse_suite')
             ->add('code_postal')
             ->add('ville')
-            ->add('latitude')
-            ->add('longitude')
             ->add('continent')
             ->add('pays')
-            ->add('entreprise', EntityType::class, [
-                "class" => Entreprise::class,
-                "choice_label" => "nom",
-                "multiple" => false,
-                "required" => true
-            ])
-            ->add('stages', EntityType::class, [
-                "class" => Stage::class,
-                "choice_label" => function(Stage $s){
-                    return $s->getId() . " - " . $s->getIntitule();
-                },
-                "multiple" => true,
-                "required" => false
-            ])
         ;
     }
 

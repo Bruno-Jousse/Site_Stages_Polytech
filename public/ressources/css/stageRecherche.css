@@ -19,10 +19,20 @@ html, body
     overflow: auto;
 }
 
-
 .filter-container
 {
     border-bottom: solid 1px gray;
+}
+
+.form_search_advice
+{
+    font-size: 18px;
+    color: #6f6f6f;
+    border-bottom: solid 1px #6f6f6f;
+    margin-left: -10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
 }
 
 .form-input-container
@@ -106,6 +116,18 @@ html, body
     margin-top: 30px;
 }
 
-.select2{
-    min-width: 200px !important;
+/*.select2{*/
+/*    min-width: 200px !important;*/
+/*}*/
+
+.select2_form_item
+{
+    width: 200px;
 }
+
+.select2-selection
+{
+    border: solid 1px #ced4da !important;
+}
+
+.single

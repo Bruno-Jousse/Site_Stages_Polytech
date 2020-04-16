@@ -31,7 +31,7 @@ class MotCleRepository extends ServiceEntityRepository
      */
     public function findMotCle(MotCle $motCle){
         return $this->findOneBy(array(
-            "mot_cle" => $motCle->getMotCle()
+            "motCle" => $motCle->getMotCle()
         ));
     }
 }
